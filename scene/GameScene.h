@@ -9,6 +9,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include "DebugCamera.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -49,11 +51,26 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	
+	//テクスチャ
 	uint32_t textureHandle_ = 0;
 
+	//スプライト
+	Sprite* sprite_ = nullptr;
+
+	//モデル
 	Model* model_ = nullptr;
 
 	//行列
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+
+	//サウンド
+	uint32_t soundDataHandle_ = 0;
+	uint32_t voiceHandle_ = 0;
+
+	//デバッグ
+	float inputFloat3[3] = {0, 0, 0};
+
+	// デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
 };
