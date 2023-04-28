@@ -1,7 +1,9 @@
 ﻿#pragma once
+
 #include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "Input.h"
 
 /// <summary>
 /// 自キャラ
@@ -28,7 +30,9 @@ private:
 	WorldTransform worldTransform_;
 	//モデル
 	Model* model_ = nullptr;
-
 	//テクスチャ
 	uint32_t textureHandle_ = 0;
+
+	//キーボード入力
+	Input* input_ = nullptr;
 };
