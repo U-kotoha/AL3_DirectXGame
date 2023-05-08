@@ -1,36 +1,36 @@
-#pragma once
+ï»¿#pragma once
 #include "Model.h"
 #include "Vector3.h"
 #include "ViewProjection.h"
 
 /// <summary>
-/// ©ƒLƒƒƒ‰‚Ì’e
+/// è‡ªã‚­ãƒ£ãƒ©ã®å¼¾
 /// </summary>
 class PlayerBullet {
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
-	/// <param name="pos">‰ŠúÀ•W</param>
+	/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
+	/// <param name="pos">åˆæœŸåº§æ¨™</param>
 	void Initialize(Model* model, const Vector3& pos);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="view">ƒrƒ…[ƒvƒƒ_ƒNƒVƒ‡ƒ“</param>
+	/// <param name="view">ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ãƒ€ã‚¯ã‚·ãƒ§ãƒ³</param>
 	void Draw(ViewProjection& view);
 
 private:
-	// ƒ[ƒ‹ƒh•ÏŠ·
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›
 	WorldTransform world_;
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* model_;
-	// ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
 	uint32_t texturehandle_;
 };

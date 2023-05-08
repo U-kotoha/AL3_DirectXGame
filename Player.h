@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Input.h"
 #include "Model.h"
@@ -7,41 +7,41 @@
 #include "WorldTransform.h"
 
 /// <summary>
-/// ©ƒLƒƒƒ‰
+/// è‡ªã‚­ãƒ£ãƒ©
 /// </summary>
 class Player {
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(Model* model, uint32_t textureHandle);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
 	/// <summary>
-	/// UŒ‚
+	/// æ”»æ’ƒ
 	/// </summary>
 	void Attack();
 
 private:
-	// ƒ[ƒ‹ƒh
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰
 	WorldTransform worldTransform_;
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* model_ = nullptr;
-	// ƒeƒNƒXƒ`ƒƒ
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	uint32_t textureHandle_ = 0;
 
-	// ƒL[ƒ{[ƒh“ü—Í
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›
 	Input* input_ = nullptr;
 
-	// ’e
+	// å¼¾
 	PlayerBullet* bullet_ = nullptr;
 };

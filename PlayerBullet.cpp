@@ -1,26 +1,26 @@
-#include "PlayerBullet.h"
+ï»¿#include "PlayerBullet.h"
 #include <cassert>
 
 void PlayerBullet::Initialize(Model* model, const Vector3& pos) {
-	// NULLƒ|ƒCƒ“ƒ^ƒ`ƒFƒbƒN
+	// NULLãƒã‚¤ãƒ³ã‚¿ãƒã‚§ãƒƒã‚¯
 	assert(model);
 
 	model_ = model;
 
-	// ƒeƒNƒXƒ`ƒƒ“Ç‚Ýž‚Ý
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	texturehandle_ = TextureManager::Load("white1x1.png");
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	world_.Initialize();
 	world_.translation_ = pos;
 }
 
 void PlayerBullet::Update() {
-	// XV
+	// æ›´æ–°
 	world_.UpdateMatrix();
 }
 
 void PlayerBullet::Draw(ViewProjection& view) {
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ
+	// ãƒ¢ãƒ‡ãƒ«ã®æç”»
 	model_->Draw(world_, view, texturehandle_);
 }

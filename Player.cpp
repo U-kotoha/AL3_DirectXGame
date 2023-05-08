@@ -1,29 +1,29 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "ImGuiManager.h"
 #include "assert.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
-	// NULLƒ`ƒFƒbƒN
+	// NULLãƒã‚§ãƒƒã‚¯
 	assert(model);
 
-	// Žó‚¯“n‚µ
+	// å—ã‘æ¸¡ã—
 	model_ = model;
 	textureHandle_ = textureHandle;
 
-	// ƒ[ƒ‹ƒh‰Šú‰»
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åˆæœŸåŒ–
 	worldTransform_.Initialize();
 
-	// ƒVƒ“ƒOƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽæ“¾
+	// ã‚·ãƒ³ã‚°ãƒ«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	input_ = Input::GetInstance();
 }
 
 void Player::Update() {
-	// ˆÚ“®ƒxƒNƒgƒ‹
+	// ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 move = {0, 0, 0};
-	// ˆÚ“®‚Ì‘¬‚³
+	// ç§»å‹•ã®é€Ÿã•
 	const float kCharacterSpeed = 0.2f;
 
-	// ã‰º¶‰E‚ÌˆÚ“®
+	// ä¸Šä¸‹å·¦å³ã®ç§»å‹•
 	if (input_->PushKey(DIK_LEFT)) {
 		move.x -= kCharacterSpeed;
 	} else if (input_->PushKey(DIK_RIGHT)) {
@@ -35,52 +35,52 @@ void Player::Update() {
 		move.y += kCharacterSpeed;
 	}
 
-	// ù‰ñ(‰ñ“])‚Ì‘¬‚³
+	// æ—‹å›ž(å›žè»¢)ã®é€Ÿã•
 	const float kRotSpeed = 0.02f;
-	// ‰Ÿ‚µ‚½•ûŒü‚ÅˆÚ“®ƒxƒNƒgƒ‹‚ð•ÏX
+	// æŠ¼ã—ãŸæ–¹å‘ã§ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰æ›´
 	if (input_->PushKey(DIK_A)) {
 		worldTransform_.rotation_.y -= kRotSpeed;
 	} else {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
 
-	// UŒ‚ˆ—
+	// æ”»æ’ƒå‡¦ç†
 	Attack();
 
-	// ’e‚ÌXV
+	// å¼¾ã®æ›´æ–°
 	if (bullet_) {
 		bullet_->Update();
 	}
 
-	// ˆÚ“®ŒÀŠEÀ•W
+	// ç§»å‹•é™ç•Œåº§æ¨™
 	const float kMoveLimitX = 30.0f;
 	const float kMoveLimitY = 15.0f;
 
-	// ”ÍˆÍ‚ð’´‚¦‚È‚¢ˆ—
+	// ç¯„å›²ã‚’è¶…ãˆãªã„å‡¦ç†
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
-	// À•WˆÚ“®
+	// åº§æ¨™ç§»å‹•
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
 
-	// s—ñXV
+	// è¡Œåˆ—æ›´æ–°
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	// s—ñ“]‘—
+	// è¡Œåˆ—è»¢é€
 	worldTransform_.TransferMatrix();
 
 	// ImGui
-	// ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒYAÀ•W‚ÌŽw’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã€åº§æ¨™ã®æŒ‡å®š
 	ImGui::SetNextWindowPos({0, 0});
 	ImGui::SetNextWindowSize({300, 100});
 
 	ImGui::Begin("Debug");
-	// À•WÝ’è
+	// åº§æ¨™è¨­å®š
 	float sliderValue3[3] = {
 	    worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z};
@@ -93,7 +93,7 @@ void Player::Update() {
 void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
-	// ’e‚Ì•`‰æ
+	// å¼¾ã®æç”»
 	if (bullet_) {
 		bullet_->Draw(viewProjection);
 	}
@@ -101,7 +101,7 @@ void Player::Draw(ViewProjection& viewProjection) {
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
-		// ’e‚Ì¶¬‚Æ‰Šú‰»
+		// å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 		PlayerBullet* newBullet = new PlayerBullet;
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
