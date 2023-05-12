@@ -2,6 +2,13 @@
 #include "ImGuiManager.h"
 #include "assert.h"
 
+Player::~Player() {
+	//弾の解放
+	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// NULLチェック
 	assert(model);
@@ -39,17 +46,17 @@ void Player::Update() {
 	const float kRotSpeed = 0.02f;
 	// 押した方向で移動ベクトルを変更
 	if (input_->PushKey(DIK_A)) {
-		worldTransform_.rotation_.y -= kRotSpeed;
-	} else {
 		worldTransform_.rotation_.y += kRotSpeed;
+	} else if (input_->PushKey(DIK_D)) {
+		worldTransform_.rotation_.y -= kRotSpeed;
 	}
 
 	// 攻撃処理
 	Attack();
 
 	// 弾の更新
-	if (bullet_) {
-		bullet_->Update();
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 
 	// 移動限界座標
@@ -94,17 +101,19 @@ void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
 	// 弾の描画
-	if (bullet_) {
-		bullet_->Draw(viewProjection);
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection);
 	}
 }
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+		
 		// 弾の生成と初期化
 		PlayerBullet* newBullet = new PlayerBullet;
 		newBullet->Initialize(model_, worldTransform_.translation_);
-
-		bullet_ = newBullet;
+		
+		//弾の登録
+		bullets_.push_back(newBullet);
 	}
 }
