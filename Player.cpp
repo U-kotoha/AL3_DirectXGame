@@ -39,9 +39,9 @@ void Player::Update() {
 	const float kRotSpeed = 0.02f;
 	//押した方向で移動ベクトルを変更
 	if (input_->PushKey(DIK_A)) {
-		worldTransform_.rotation_.y -= kRotSpeed;
-	} else {
 		worldTransform_.rotation_.y += kRotSpeed;
+	} else if (input_->PushKey(DIK_D)) {
+		worldTransform_.rotation_.y -= kRotSpeed;
 	}
 
 	//攻撃処理
