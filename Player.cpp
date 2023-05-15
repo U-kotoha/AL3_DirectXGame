@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "ImGuiManager.h"
 #include "assert.h"
+#include "MathUtility.h"
 
 Player::~Player() {
 	// 弾の解放
@@ -109,9 +110,15 @@ void Player::Draw(ViewProjection& viewProjection) {
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
+		//弾の速度
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
 		// 弾の生成と初期化
 		PlayerBullet* newBullet = new PlayerBullet;
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 
 		// 弾の登録
 		bullets_.push_back(newBullet);

@@ -13,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="pos">初期座標</param>
-	void Initialize(Model* model, const Vector3& pos);
+	void Initialize(Model* model, const Vector3& pos, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新
@@ -33,4 +33,6 @@ private:
 	Model* model_;
 	// テクスチャハンドル
 	uint32_t texturehandle_;
+	//速度
+	Vector3 velocity_;
 };
