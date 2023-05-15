@@ -26,6 +26,11 @@ void PlayerBullet::Update() {
 
 	// 更新
 	world_.UpdateMatrix();
+
+	//時間経過でデス
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
 }
 
 void PlayerBullet::Draw(ViewProjection& view) {
