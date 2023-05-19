@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector3.h"
 #include "Matrix4x4.h"
 
-//ƒxƒNƒgƒ‹•ÏŠ·
+//ãƒ™ã‚¯ãƒˆãƒ«å¤‰æ›
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
