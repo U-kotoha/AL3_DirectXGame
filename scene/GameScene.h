@@ -10,6 +10,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -59,6 +60,9 @@ private: // メンバ変数
 
 	// プレイヤー
 	Player* player_ = nullptr;
+
+	//敵
+	Enemy* enemy_ = nullptr;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
