@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "EnemyBullet.h"
+#include <list>
 
 /// <summary>
 /// 敵
@@ -25,6 +27,11 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	/// <summary>
+	/// 弾発射
+	/// </summary>
+	void Fire();
+
 	//行動フェーズ
 	enum class Phase {
 		Approch, //接近する
@@ -41,4 +48,7 @@ private:
 
 	//フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
+
+	//弾
+	std::list<EnemyBullet*> bullets_;
 };
