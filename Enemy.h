@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Model.h"
+#include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
@@ -12,7 +13,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Model* model, const Vector3& pos);
 
 	/// <summary>
 	/// 更新
@@ -24,18 +25,11 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
-	enum class Phase {
-		Approch,
-		Leave,
-	};
-
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-	Phase phase_ = Approch;
+	uint32_t textureHandle_;
 };

@@ -3,6 +3,7 @@
 #include "Audio.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
@@ -60,8 +61,12 @@ private: // メンバ変数
 	// プレイヤー
 	Player* player_ = nullptr;
 
+	// 敵
+	Enemy* enemy_ = nullptr;
+
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+	Vector3 pos_ = {0.0f, 2.0f, 10.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
