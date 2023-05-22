@@ -32,6 +32,7 @@ void GameScene::Initialize() {
 
 	//敵
 	enemy_ = new Enemy();
+	enemy_->Initialize(model_, pos_);
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
