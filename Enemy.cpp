@@ -13,6 +13,8 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 
 	//ワールド初期化
 	worldTransform_.Initialize();
+
+	//初期座標の設定
 	worldTransform_.translation_ = pos;
 }
 
@@ -32,6 +34,6 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) {
-
+	//3Dモデルの描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
