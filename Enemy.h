@@ -25,6 +25,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	//行動フェーズ
+	enum class Phase {
+		Approch, //接近する
+		Leave, //離脱する
+	};
+
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -32,4 +38,7 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_;
+
+	//フェーズ
+	Phase phase_ = Enemy::Phase::Approch;
 };
