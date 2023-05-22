@@ -25,10 +25,10 @@ public:
 	void Draw(ViewProjection& viewProjection);
 
 private:
-	//ワールド
+	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//モデル
 	Model* model_ = nullptr;
-	//テクスチャ
+	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 };

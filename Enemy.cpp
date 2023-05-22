@@ -17,11 +17,12 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 }
 
 void Enemy::Update() {
-	//座標を移動させる
+
+	//座標移動
 	worldTransform_.translation_.x += 1.0f;
 	worldTransform_.translation_.y += 1.0f;
 	worldTransform_.translation_.z += 1.0f;
-	
+
 	//更新
 	worldTransform_.UpdateMatrix();
 

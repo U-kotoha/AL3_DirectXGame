@@ -45,6 +45,9 @@ void GameScene::Update() {
 	// プレイヤー更新
 	player_->Update();
 
+	// 敵の更新
+	enemy_->Update();
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
 		isDebugCamaraActive_ = true;
@@ -60,9 +63,6 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.UpdateMatrix();
 	}
-
-	//敵の更新
-	enemy_->Update();
 }
 
 void GameScene::Draw() {
