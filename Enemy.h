@@ -12,6 +12,16 @@
 /// </summary>
 class Enemy {
 public:
+	//弾の発射間隔
+	static const int kFireInterval = 60;
+	// 接近フェーズ初期化
+	void Approch_();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Enemy();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -49,6 +59,8 @@ private:
 	//フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
 
-	//弾
+	//敵の弾
 	std::list<EnemyBullet*> bullets_;
+	//発射タイマー
+	int32_t bulletTimer = 0;
 };

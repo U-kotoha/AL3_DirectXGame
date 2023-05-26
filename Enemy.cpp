@@ -2,6 +2,13 @@
 #include "MathUtility.h"
 #include "assert.h"
 
+Enemy::~Enemy() {
+	// 弾の解放
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Enemy::Initialize(Model* model, const Vector3& pos) {
 	// NULLチェック
 	assert(model);
@@ -19,6 +26,9 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	worldTransform_.translation_.x = pos.x;
 	worldTransform_.translation_.y = pos.y;
 	worldTransform_.translation_.z = pos.z;
+
+	// 接近フェーズ初期化
+	Approch_();
 }
 
 void Enemy::Update() {
@@ -32,25 +42,23 @@ void Enemy::Update() {
 		return false;
 	});
 
-	//switch (phase_) {
-	//case Enemy::Phase::Approch:
-	//default:
-	//	//移動(ベクトル加算)
-	//	worldTransform_.translation_.z -= 0.20f;
-	//	//規定の位置に到達したら離脱
-	//	if (worldTransform_.translation_.z < 0.0f) {
-	//		phase_ = Enemy::Phase::Leave;
-	//	}
-	//	break;
+	switch (phase_) {
+	case Enemy::Phase::Approch:
+	default:
+		//移動(ベクトル加算)
+		worldTransform_.translation_.z -= 0.20f;
+		//規定の位置に到達したら離脱
+		if (worldTransform_.translation_.z < 20.0f) {
+			phase_ = Enemy::Phase::Leave;
+		}
+		break;
 
-	//case Enemy::Phase::Leave:
-	//	//移動(ベクトル加算)
-	//	worldTransform_.translation_.x -= 0.20f;
-	//	worldTransform_.translation_.y += 0.20f;
-	//	break;
-	//}
-
-	Fire();
+	case Enemy::Phase::Leave:
+		//移動(ベクトル加算)
+		worldTransform_.translation_.z = 40.0f;
+		phase_ = Enemy::Phase::Approch;
+		break;
+	}
 
 	// 弾の更新
 	for (EnemyBullet* bullet : bullets_) {
@@ -85,4 +93,16 @@ void Enemy::Fire() {
 
 	// 弾の登録
 	bullets_.push_back(newBullet);
+}
+
+void Enemy::Approch_() {
+	// 発射タイマーカウントダウン
+	bulletTimer--;
+
+	//指定時間に達した
+	if (bulletTimer <= 60) {
+		Fire();
+		// 発射タイマーを初期化
+		bulletTimer = kFireInterval;
+	}
 }

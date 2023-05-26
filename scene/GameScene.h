@@ -66,7 +66,7 @@ private: // メンバ変数
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Vector3 pos_ = {30.0f, 2.0f, 10.0f};
+	Vector3 pos_ = {30.0f, 2.0f, 40.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
