@@ -10,13 +10,9 @@
 /// <summary>
 /// 敵
 /// </summary>
+class Player;
 class Enemy {
 public:
-	//弾の発射間隔
-	static const int kFireInterval = 60;
-	// 接近フェーズ初期化
-	void Approch_();
-
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -48,6 +44,13 @@ public:
 		Leave, //離脱する
 	};
 
+	// 弾の発射間隔
+	static const int kFireInterval = 60;
+	// 接近フェーズ初期化
+	void Approch_();
+
+	void SetPlayer(Player* player) { player_ = player; }
+
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -63,4 +66,6 @@ private:
 	std::list<EnemyBullet*> bullets_;
 	//発射タイマー
 	int32_t bulletTimer = 0;
+
+	Player* player_ = nullptr;
 };

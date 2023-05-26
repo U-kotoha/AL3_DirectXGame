@@ -1,6 +1,8 @@
 ﻿#include "Enemy.h"
 #include "MathUtility.h"
 #include "assert.h"
+#include "cmath"
+#include "Player.h"
 
 Enemy::~Enemy() {
 	// 弾の解放
@@ -80,9 +82,17 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 }
 
 void Enemy::Fire() {
+	assert(player_);
+
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
+
+	// 大きさ
+	float length = sqrtf(x2 + y2 + z2);
+	// 正規化
+	Vector3 dir = (x / length, y / length, z / length);
+	Vector3 velocity = dir * 速度;
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
