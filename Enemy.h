@@ -60,6 +60,7 @@ private:
 
 	//敵の弾
 	std::list<EnemyBullet*> bullets_;
+	
 	//発射タイマー
-	int32_t bulletTimer = 0;
+	int32_t fireTimer = 0;
 };

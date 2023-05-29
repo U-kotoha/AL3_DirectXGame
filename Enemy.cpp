@@ -48,7 +48,7 @@ void Enemy::Update() {
 		//移動(ベクトル加算)
 		worldTransform_.translation_.z -= 0.20f;
 		//規定の位置に到達したら離脱
-		if (worldTransform_.translation_.z < 20.0f) {
+		if (worldTransform_.translation_.z < 0.0f) {
 			phase_ = Enemy::Phase::Leave;
 		}
 		break;
@@ -65,8 +65,11 @@ void Enemy::Update() {
 		bullet->Update();
 	}
 
-	// 行列の更新
-	worldTransform_.UpdateMatrix();
+	// 行列更新
+	worldTransform_.matWorld_ = MakeAffineMatrix(
+	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	// 行列転送
+	worldTransform_.TransferMatrix();
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) {
@@ -97,12 +100,12 @@ void Enemy::Fire() {
 
 void Enemy::Approch_() {
 	// 発射タイマーカウントダウン
-	bulletTimer--;
+	fireTimer--;
 
 	//指定時間に達した
-	if (bulletTimer <= 60) {
+	if (fireTimer <= 60) {
 		Fire();
 		// 発射タイマーを初期化
-		bulletTimer = kFireInterval;
+		fireTimer = kFireInterval;
 	}
 }
