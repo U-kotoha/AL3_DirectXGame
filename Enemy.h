@@ -5,12 +5,12 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
+#include "Player.h"
 #include <list>
 
 /// <summary>
 /// 敵
 /// </summary>
-class Player;
 class Enemy {
 public:
 	/// <summary>
@@ -38,18 +38,16 @@ public:
 	/// </summary>
 	void Fire();
 
-	//行動フェーズ
-	enum class Phase {
-		Approch, //接近する
-		Leave, //離脱する
-	};
-
 	// 弾の発射間隔
 	static const int kFireInterval = 60;
 	// 接近フェーズ初期化
 	void Approch_();
 
-	void SetPlayer(Player* player) { player_ = player; }
+	// 行動フェーズ
+	enum class Phase {
+		Approch, // 接近する
+		Leave,   // 離脱する
+	};
 
 private:
 	// ワールドトランスフォーム
@@ -59,13 +57,14 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_;
 
-	//フェーズ
+	// フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
 
-	//敵の弾
+	// 敵の弾
 	std::list<EnemyBullet*> bullets_;
-	//発射タイマー
-	int32_t bulletTimer = 0;
+
+	// 発射タイマー
+	int32_t fireTimer = 0;
 
 	Player* player_ = nullptr;
 };
