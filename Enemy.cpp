@@ -96,7 +96,7 @@ void Enemy::Approch_() {
 	fireTimer--;
 
 	//指定時間に達した
-	if (fireTimer >= 60) {
+	if (fireTimer <= 60) {
 		Fire();
 		// 発射タイマーを初期化
 		fireTimer = kFireInterval;
