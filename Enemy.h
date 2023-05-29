@@ -36,16 +36,16 @@ public:
 	/// </summary>
 	void Fire();
 
+	// 弾の発射間隔
+	static const int kFireInterval = 60;
+	// 接近フェーズ初期化
+	void Approch_();
+
 	//行動フェーズ
 	enum class Phase {
 		Approch, //接近する
 		Leave, //離脱する
 	};
-
-	// 弾の発射間隔
-	static const int kFireInterval = 60;
-	// 接近フェーズ初期化
-	void Approch_();
 
 private:
 	// ワールドトランスフォーム
