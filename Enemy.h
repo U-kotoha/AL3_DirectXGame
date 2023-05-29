@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Model.h"
-#include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
@@ -12,11 +11,6 @@
 /// </summary>
 class Enemy {
 public:
-	//弾の発射間隔
-	static const int kFireInterval = 60;
-	// 接近フェーズ初期化
-	void Approch_();
-
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -47,6 +41,11 @@ public:
 		Approch, //接近する
 		Leave, //離脱する
 	};
+
+	// 弾の発射間隔
+	static const int kFireInterval = 60;
+	// 接近フェーズ初期化
+	void Approch_();
 
 private:
 	// ワールドトランスフォーム
