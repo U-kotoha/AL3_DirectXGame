@@ -35,9 +35,23 @@ void Enemy::Update() {
 
 	switch (phase_) {
 	case Enemy::Phase::Approch:
-	default:
 		//移動(ベクトル加算)
 		worldTransform_.translation_.z -= 0.20f;
+
+		// 発射タイマーカウントダウン
+		fireTimer--;
+
+		// 指定時間に達した
+		if (fireTimer <= 0) {
+			Fire();
+			// 発射タイマーを初期化
+			fireTimer = kFireInterval;
+		}
+
+		// 一定の位置になったら行動フェーズが変わる
+		if (worldTransform_.translation_.z < 0.0f) {
+			phase_ = Enemy::Phase::Leave;
+		}
 		break;
 
 	case Enemy::Phase::Leave:
@@ -92,13 +106,6 @@ void Enemy::Fire() {
 }
 
 void Enemy::Approch_() {
-	// 発射タイマーカウントダウン
-	fireTimer--;
-
-	//指定時間に達した
-	if (fireTimer <= 60) {
-		Fire();
-		// 発射タイマーを初期化
-		fireTimer = kFireInterval;
-	}
+	// 発射タイマーを初期化
+	fireTimer = kFireInterval;
 }
