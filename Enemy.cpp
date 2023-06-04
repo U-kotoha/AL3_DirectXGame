@@ -1,7 +1,13 @@
 ﻿#include "Enemy.h"
 #include "MathUtility.h"
 #include "assert.h"
-#include "cmath"
+
+Enemy::~Enemy() {
+	// 弾の解放
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
 
 void Enemy::Initialize(Model* model, const Vector3& pos) {
 	// NULLチェック
@@ -29,9 +35,23 @@ void Enemy::Update() {
 
 	switch (phase_) {
 	case Enemy::Phase::Approch:
-	default:
 		// 移動(ベクトル加算)
 		worldTransform_.translation_.z -= 0.20f;
+
+		// 発射タイマーカウントダウン
+		fireTimer--;
+
+		// 指定時間に達した
+		if (fireTimer <= 0) {
+			Fire();
+			// 発射タイマーを初期化
+			fireTimer = kFireInterval;
+		}
+
+		// 一定の位置になったら行動フェーズが変わる
+		if (worldTransform_.translation_.z < 0.0f) {
+			phase_ = Enemy::Phase::Leave;
+		}
 		break;
 
 	case Enemy::Phase::Leave:
@@ -70,17 +90,9 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 }
 
 void Enemy::Fire() {
-	assert(player_);
-
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
-
-	// 大きさ
-	float length = sqrtf(x2 + y2 + z2);
-	// 正規化
-	Vector3 dir = (x / length, y / length, z / length);
-	Vector3 velocity = dir * 速度;
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
@@ -94,13 +106,6 @@ void Enemy::Fire() {
 }
 
 void Enemy::Approch_() {
-	// 発射タイマーカウントダウン
-	fireTimer--;
-
-	// 指定時間に達した
-	if (fireTimer <= 60) {
-		Fire();
-		// 発射タイマーを初期化
-		fireTimer = kFireInterval;
-	}
+	// 発射タイマーを初期化
+	fireTimer = kFireInterval;
 }
