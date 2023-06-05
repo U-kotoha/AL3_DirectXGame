@@ -135,3 +135,13 @@ void Player::Attack() {
 		bullets_.push_back(newBullet);
 	}
 }
+
+Vector3 Player::GetWorldPosition() { 
+	Vector3 worldPos;
+
+	worldPos.x = ;
+	worldPos.y = ;
+	worldPos.z = ;
+
+	return worldPos;
+}

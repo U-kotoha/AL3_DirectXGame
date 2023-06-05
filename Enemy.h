@@ -5,9 +5,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
-#include "Player.h"
 #include <list>
 
+class Player;
 /// <summary>
 /// 敵
 /// </summary>
@@ -49,6 +49,8 @@ public:
 		Leave,   // 離脱する
 	};
 
+	void SetPlayer(Player* player) { player_ = player; }
+
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -67,4 +69,7 @@ private:
 	int32_t fireTimer = 0;
 
 	Player* player_ = nullptr;
+
+	// ワールド座標
+	Vector3 GetWorldPosition();
 };

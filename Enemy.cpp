@@ -1,6 +1,7 @@
 ﻿#include "Enemy.h"
 #include "MathUtility.h"
 #include "assert.h"
+#include "Player.h"
 
 Enemy::~Enemy() {
 	// 弾の解放
@@ -90,9 +91,15 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 }
 
 void Enemy::Fire() {
+	assert(player_);
+	
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
+
+	Player* GetWorldPosition();
+	Enemy::GetWorldPosition();
+
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
@@ -108,4 +115,14 @@ void Enemy::Fire() {
 void Enemy::Approch_() {
 	// 発射タイマーを初期化
 	fireTimer = kFireInterval;
+}
+
+Vector3 Enemy::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = ;
+	worldPos.y = ;
+	worldPos.z = ;
+
+	return worldPos;
 }
