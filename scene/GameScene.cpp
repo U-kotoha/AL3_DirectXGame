@@ -10,6 +10,8 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamara_;
 	delete enemy_;
+	delete skydome_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -34,6 +36,10 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	enemy_->Initialize(model_, pos_);
 
+	skydome_ = new Skydome();
+	skydome_->Initialize(model_);
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 
@@ -43,11 +49,11 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	// プレイヤー更新
+	
+	//更新
 	player_->Update();
-
-	// 敵の更新
 	enemy_->Update();
+	skydome_->Update();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
@@ -93,11 +99,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	// プレイヤー
+	//描画
 	player_->Draw(viewProjection_);
-
-	// 敵
 	enemy_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
