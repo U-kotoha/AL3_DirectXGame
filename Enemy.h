@@ -7,10 +7,19 @@
 #include "EnemyBullet.h"
 #include <list>
 
-class Player;
+// 正規化
+Vector3 Normalize(const Vector3& v) {
+	Vector3 result;
+	result.x = v.x / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	result.y = v.y / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	result.z = v.z / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	return result;
+}
+
 /// <summary>
 /// 敵
 /// </summary>
+class Player;
 class Enemy {
 public:
 	/// <summary>

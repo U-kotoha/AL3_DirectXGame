@@ -99,6 +99,8 @@ void Enemy::Fire() {
 
 	Player* GetWorldPosition();
 	Enemy::GetWorldPosition();
+	vector = Enemy::bullets_.end() - Enemy::bullets_.begin();
+	Normalize();
 
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
@@ -120,9 +122,9 @@ void Enemy::Approch_() {
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPos;
 
-	worldPos.x = ;
-	worldPos.y = ;
-	worldPos.z = ;
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
 }
