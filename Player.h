@@ -37,6 +37,9 @@ public:
 	/// </summary>
 	void Attack();
 
+	// ワールド座標
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド
 	WorldTransform worldTransform_;
@@ -44,13 +47,11 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャ
 	uint32_t textureHandle_ = 0;
-
 	// キーボード入力
 	Input* input_ = nullptr;
-
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
 	//ワールド座標
-	Vector3 GetWorldPosition();
+	//Vector3 GetWorldPosition();
 };

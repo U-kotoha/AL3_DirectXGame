@@ -97,22 +97,22 @@ void Enemy::Fire() {
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
 
-	Player* GetWorldPosition();
-	Enemy::GetWorldPosition();
+	player_->GetWorldPosition();
+	//enemy_->GetWorldPosition();
 
+	//ベクトルの長さの正規化
 	Vector3 vec;
-	Vector3 normal;
-	normal.x = vec.x / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-	normal.y = vec.y / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-	normal.z = vec.z / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	float length = sqrt(vec.x * vec.x + vec.y + vec.y + vec.z * vec.z);
 
-	normal.x *= kBulletSpeed;
-	normal.y *= kBulletSpeed;
-	normal.z *= kBulletSpeed;
+	//正規化された移動量
+	float nomalX = vec.x / length;
+	float nomalY = vec.y / length;
+	float nomalZ = vec.z / length;
 
-	worldTransform_.translation_.x += normal.x;
-	worldTransform_.translation_.y += normal.y;
-	worldTransform_.translation_.z += normal.z;
+	//正規化した速度を代入
+	worldTransform_.translation_.x += nomalX * kBulletSpeed;
+	worldTransform_.translation_.y += nomalY * kBulletSpeed;
+	worldTransform_.translation_.z += nomalZ * kBulletSpeed;
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);

@@ -50,6 +50,8 @@ public:
 	};
 
 	void SetPlayer(Player* player) { player_ = player; }
+	//ワールド座標
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールドトランスフォーム
@@ -58,18 +60,15 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_;
-
 	// フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
-
 	// 敵の弾
 	std::list<EnemyBullet*> bullets_;
-
 	// 発射タイマー
 	int32_t fireTimer = 0;
 
+	//プレイヤー
 	Player* player_ = nullptr;
-
-	// ワールド座標
-	Vector3 GetWorldPosition();
+	//ワールド座標
+	//Vector3 GetWorldPosition();
 };
