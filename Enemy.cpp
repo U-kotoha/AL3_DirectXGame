@@ -99,8 +99,7 @@ void Enemy::Fire() {
 
 	Player* GetWorldPosition();
 	Enemy::GetWorldPosition();
-	
-	//ベクトル
+
 	Vector3 vec;
 	Vector3 normal;
 	normal.x = vec.x / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);

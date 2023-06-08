@@ -20,8 +20,6 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 void EnemyBullet::Update() {
 
 	// 座標を移動させる
-	world_.translation_.x -= velocity_.x;
-	world_.translation_.y -= velocity_.y;
 	world_.translation_.z -= velocity_.z;
 
 	// 更新
