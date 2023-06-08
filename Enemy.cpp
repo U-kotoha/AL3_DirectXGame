@@ -97,11 +97,23 @@ void Enemy::Fire() {
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
 
-	player_ = ;
 	Player* GetWorldPosition();
 	Enemy::GetWorldPosition();
 	
-	Vector3 
+	//ベクトル
+	Vector3 vec;
+	Vector3 normal;
+	normal.x = vec.x / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	normal.y = vec.y / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	normal.z = vec.z / sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+
+	normal.x *= kBulletSpeed;
+	normal.y *= kBulletSpeed;
+	normal.z *= kBulletSpeed;
+
+	worldTransform_.translation_.x += normal.x;
+	worldTransform_.translation_.y += normal.y;
+	worldTransform_.translation_.z += normal.z;
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
