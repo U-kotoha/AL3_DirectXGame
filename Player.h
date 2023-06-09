@@ -40,6 +40,12 @@ public:
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
+	//衝突時コールバック関数
+	void OnCollision();
+
+	//弾リスト取得
+	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+
 private:
 	// ワールド
 	WorldTransform worldTransform_;

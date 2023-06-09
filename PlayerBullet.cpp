@@ -37,3 +37,8 @@ void PlayerBullet::Draw(ViewProjection& view) {
 	// モデルの描画
 	model_->Draw(world_, view, texturehandle_);
 }
+
+void PlayerBullet::OnCollision() {
+	//デスフラグ
+
+}

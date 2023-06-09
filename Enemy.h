@@ -53,6 +53,12 @@ public:
 	//ワールド座標
 	Vector3 GetWorldPosition();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
+	// 弾リスト取得
+	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;

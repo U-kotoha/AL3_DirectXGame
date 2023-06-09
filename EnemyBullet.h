@@ -30,6 +30,12 @@ public:
 	// メンバ関数
 	bool IsDead() const { return isDead_; }
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
+	// ワールド座標
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド変換
 	WorldTransform world_;
