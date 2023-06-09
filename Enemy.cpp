@@ -97,8 +97,8 @@ void Enemy::Fire() {
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
 
-	player_->GetWorldPosition();
-	//enemy_->GetWorldPosition();
+	Player* GetWorldPosition();
+	Enemy::GetWorldPosition();
 
 	//ベクトルの長さの正規化
 	Vector3 vec;
