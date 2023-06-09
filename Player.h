@@ -52,6 +52,4 @@ private:
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
-	//ワールド座標
-	//Vector3 GetWorldPosition();
 };

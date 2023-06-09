@@ -52,7 +52,6 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	//ワールド座標
 	Vector3 GetWorldPosition();
-	Enemy::GetWorldPosition();
 
 private:
 	// ワールドトランスフォーム
@@ -70,6 +69,5 @@ private:
 
 	//プレイヤー
 	Player* player_ = nullptr;
-	//ワールド座標
-	//Vector3 GetWorldPosition();
+
 };

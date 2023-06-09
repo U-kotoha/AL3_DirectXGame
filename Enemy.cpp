@@ -37,7 +37,7 @@ void Enemy::Update() {
 	switch (phase_) {
 	case Enemy::Phase::Approch:
 		// 移動(ベクトル加算)
-		worldTransform_.translation_.z -= 0.20f;
+		worldTransform_.translation_.z -= 0.10f;
 
 		// 発射タイマーカウントダウン
 		fireTimer--;
@@ -94,32 +94,34 @@ void Enemy::Fire() {
 	assert(player_);
 	
 	// 弾の速度
-	const float kBulletSpeed = 1.0f;
-	Vector3 velocity(0, 0, kBulletSpeed);
+	const float kBulletSpeed = 0.5f;
 
-	Player* GetWorldPosition();
-	Enemy::GetWorldPosition();
+	//ワールド座標
+	Vector3 playerV = player_->GetWorldPosition();
+	Vector3 enemyV =  Enemy::GetWorldPosition();
 
-	//ベクトルの長さの正規化
-	Vector3 vec;
-	float length = sqrt(vec.x * vec.x + vec.y + vec.y + vec.z * vec.z);
+	//ベクトル
+	Vector3 playerV_;
+	playerV_.x = enemyV.x - playerV.x;
+	playerV_.y = enemyV.y - playerV.y;
+	playerV_.z = enemyV.z - playerV.z;
 
-	//正規化された移動量
-	float nomalX = vec.x / length;
-	float nomalY = vec.y / length;
-	float nomalZ = vec.z / length;
+	//正規化
+	float length =
+	    sqrt(playerV_.x * playerV_.x + playerV_.y + playerV_.y + playerV_.z * playerV_.z);
 
-	//正規化した速度を代入
-	worldTransform_.translation_.x += nomalX * kBulletSpeed;
-	worldTransform_.translation_.y += nomalY * kBulletSpeed;
-	worldTransform_.translation_.z += nomalZ * kBulletSpeed;
-
-	// 速度ベクトルを自機の向きに合わせて回転させる
-	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+	Vector3 normal;
+	normal.x = playerV_.x / length;
+	normal.y = playerV_.y / length;
+	normal.z = playerV_.z / length;
+	
+	normal.x *= kBulletSpeed;
+	normal.y *= kBulletSpeed;
+	normal.z *= kBulletSpeed;
 
 	// 弾の生成と初期化
 	EnemyBullet* newBullet = new EnemyBullet;
-	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	newBullet->Initialize(model_, worldTransform_.translation_, normal);
 
 	// 弾の登録
 	bullets_.push_back(newBullet);
