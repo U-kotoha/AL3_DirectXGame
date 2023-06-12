@@ -65,9 +65,12 @@ private: // メンバ変数
 
 	// プレイヤー
 	Player* player_ = nullptr;
+	float radius_ = 50;
 
 	// 敵
 	Enemy* enemy_ = nullptr;
+	EnemyBullet* enemybullet_ = nullptr;
+	float radius2_ = 50;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;

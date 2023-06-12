@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, float radius);
 
 	/// <summary>
 	/// 更新
@@ -44,7 +44,7 @@ public:
 	void OnCollision();
 
 	//弾リスト取得
-	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// ワールド

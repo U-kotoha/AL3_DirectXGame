@@ -1,7 +1,7 @@
 ﻿#include "EnemyBullet.h"
 #include <cassert>
 
-void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& velocity) {
+void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& velocity, float radius) {
 	// NULLポインタチェック
 	assert(model);
 
@@ -15,6 +15,8 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 	// 初期化
 	world_.Initialize();
 	world_.translation_ = pos;
+
+	float r = radius;
 }
 
 void EnemyBullet::Update() {
@@ -40,7 +42,7 @@ void EnemyBullet::Draw(ViewProjection& view) {
 
 void EnemyBullet::OnCollision() {
 	//デスフラグ
-
+	isDead_ = true;
 }
 
 Vector3 EnemyBullet::GetWorldPosition() {

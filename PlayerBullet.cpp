@@ -40,5 +40,5 @@ void PlayerBullet::Draw(ViewProjection& view) {
 
 void PlayerBullet::OnCollision() {
 	//デスフラグ
-
+	isDead_ = true;
 }

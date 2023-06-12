@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamara_;
 	delete enemy_;
+	delete enemybullet_;
 }
 
 void GameScene::Initialize() {
@@ -28,7 +29,7 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_);
+	player_->Initialize(model_, textureHandle_, radius_);
 
 	// 敵
 	enemy_ = new Enemy();
@@ -130,7 +131,17 @@ void GameScene::CheckAllCollisions() {
 	posA = player_->GetWorldPosition();
 
 	for (EnemyBullet* bullet : enemyBullets) {
-		posB = EnemyBullet::GetWorldPosition();
+		posB = enemybullet_->GetWorldPosition();
+		float posAB = 
+			(posB.x - posA.x) * (posB.x - posA.x) +
+			(posB.y - posA.y) * (posB.y - posA.y) + 
+			(posB.z - posA.z) * (posB.z - posA.z);
+
+		//球と球の交差判定
+		if (posAB <= (radius_ + radius2_) * (radius_ + radius2_)) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
 	}
 	#pragma endregion
 

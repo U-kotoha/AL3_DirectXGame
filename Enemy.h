@@ -57,7 +57,7 @@ public:
 	void OnCollision();
 
 	// 弾リスト取得
-	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// ワールドトランスフォーム
