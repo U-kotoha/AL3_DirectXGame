@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamara_;
 	delete enemy_;
+	delete railCamera_;
 }
 
 void GameScene::Initialize() {
@@ -26,9 +27,15 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
+	// レールカメラ
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.001f, 0.0f});
+
 	// プレイヤー
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_);
+	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.0f});
+	//自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	// 敵
 	enemy_ = new Enemy();
@@ -44,6 +51,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// レールカメラ
+	railCamera_->Update();
+	
 	// プレイヤー更新
 	player_->Update();
 
@@ -63,7 +73,9 @@ void GameScene::Update() {
 		viewProjection_.matProjection = debugCamara_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
 	}
 }
 

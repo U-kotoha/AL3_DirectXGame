@@ -11,6 +11,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -71,4 +72,7 @@ private: // メンバ変数
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
 	DebugCamera* debugCamara_ = nullptr;
+
+	// レールカメラ	
+	RailCamera* railCamera_ = nullptr;
 };

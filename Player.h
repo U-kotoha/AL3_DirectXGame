@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, Vector3 position);
 
 	/// <summary>
 	/// 更新
@@ -36,6 +36,12 @@ public:
 	/// 攻撃
 	/// </summary>
 	void Attack();
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent"> 親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
 
 	// ワールド座標
 	Vector3 GetWorldPosition();
