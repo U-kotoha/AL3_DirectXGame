@@ -4,6 +4,7 @@
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
@@ -43,6 +44,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name="enemyBullet">敵弾</param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -63,6 +70,7 @@ private: // メンバ変数
 
 	// 敵
 	Enemy* enemy_ = nullptr;
+	std::list<EnemyBullet*> bullets_;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;

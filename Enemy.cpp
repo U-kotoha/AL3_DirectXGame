@@ -2,12 +2,10 @@
 #include "MathUtility.h"
 #include "assert.h"
 #include "Player.h"
+#include "GameScene.h"
 
 Enemy::~Enemy() {
-	// 弾の解放
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
+	
 }
 
 void Enemy::Initialize(Model* model, const Vector3& pos) {
@@ -59,20 +57,6 @@ void Enemy::Update() {
 		break;
 	}
 
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
-
-	// 弾の更新
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
-
 	// 行列更新
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -83,11 +67,6 @@ void Enemy::Update() {
 void Enemy::Draw(ViewProjection& viewProjection) {
 	// 3Dモデルの描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-
-	// 弾の描画
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
 }
 
 void Enemy::Fire() {
@@ -123,8 +102,7 @@ void Enemy::Fire() {
 	EnemyBullet* newBullet = new EnemyBullet;
 	newBullet->Initialize(model_, worldTransform_.translation_, normal);
 
-	// 弾の登録
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::Approch_() {

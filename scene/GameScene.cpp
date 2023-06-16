@@ -6,6 +6,10 @@
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
+	// 弾の解放
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
 	delete model_;
 	delete player_;
 	delete debugCamara_;
@@ -34,6 +38,7 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	enemy_->Initialize(model_, pos_);
 	enemy_->SetPlayer(player_);
+	enemy_->SetGameScene(this);
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -44,6 +49,20 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
+	// 弾の更新
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
+	}
+
 	// プレイヤー更新
 	player_->Update();
 
@@ -93,6 +112,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	// 弾の描画
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
+	}
 
 	// プレイヤー
 	player_->Draw(viewProjection_);
@@ -116,4 +140,9 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
+	
+	bullets_.push_back(enemyBullet);
 }

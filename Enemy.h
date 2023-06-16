@@ -11,6 +11,8 @@
 /// 敵
 /// </summary>
 class Player;
+class GameScene;
+
 class Enemy {
 public:
 	/// <summary>
@@ -49,9 +51,11 @@ public:
 		Leave,   // 離脱する
 	};
 
-	void SetPlayer(Player* player) { player_ = player; }
 	//ワールド座標
 	Vector3 GetWorldPosition();
+
+	void SetPlayer(Player* player) { player_ = player; }
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 	// ワールドトランスフォーム
@@ -62,12 +66,16 @@ private:
 	uint32_t textureHandle_;
 	// フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
+
 	// 敵の弾
-	std::list<EnemyBullet*> bullets_;
+	/*std::list<EnemyBullet*> bullets_;*/
+	
 	// 発射タイマー
 	int32_t fireTimer = 0;
 
 	//プレイヤー
 	Player* player_ = nullptr;
 
+	//ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
