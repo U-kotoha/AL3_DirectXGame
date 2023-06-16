@@ -33,6 +33,8 @@ public:
 	// 衝突時コールバック関数
 	void OnCollision();
 
+	const float GetRadius() { return radius_; }
+
 private:
 	// ワールド変換
 	WorldTransform world_;

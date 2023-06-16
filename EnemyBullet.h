@@ -36,6 +36,8 @@ public:
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
+	const float GetRadius() { return radius_; }
+
 private:
 	// ワールド変換
 	WorldTransform world_;

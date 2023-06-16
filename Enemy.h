@@ -59,6 +59,8 @@ public:
 	// 弾リスト取得
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
+	const float GetRadius() { return radius_; }
+
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
