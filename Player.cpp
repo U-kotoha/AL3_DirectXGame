@@ -10,14 +10,13 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle, float radius) {
+void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// NULLチェック
 	assert(model);
 
 	// 受け渡し
 	model_ = model;
 	textureHandle_ = textureHandle;
-	float r = radius;
 
 	// ワールド初期化
 	worldTransform_.Initialize();
