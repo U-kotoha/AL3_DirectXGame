@@ -59,5 +59,5 @@ private:
 	Input* input_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
-
+	float radius_;
 };
