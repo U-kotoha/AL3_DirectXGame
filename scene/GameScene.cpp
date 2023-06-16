@@ -13,7 +13,9 @@ GameScene::~GameScene() {
 	delete model_;
 	delete player_;
 	delete debugCamara_;
-	delete enemy_;
+	for (Enemy* enemy : enemy_) {
+		delete enemy;
+	}
 }
 
 void GameScene::Initialize() {
@@ -34,11 +36,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
 
-	// 敵
-	enemy_ = new Enemy();
-	enemy_->Initialize(model_, pos_);
-	enemy_->SetPlayer(player_);
-	enemy_->SetGameScene(this);
+	AddEnemy(pos_);//0,3,50
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -66,8 +64,18 @@ void GameScene::Update() {
 	// プレイヤー更新
 	player_->Update();
 
+	enemy_.remove_if([](Enemy* enemy) {
+		if (enemy->GetIsDead()) {
+			delete enemy;
+			return true;
+		}
+		return false;
+	});
+
 	// 敵の更新
-	enemy_->Update();
+	for (Enemy* enemy : enemy_) {
+		enemy->Update();
+	}
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
@@ -144,5 +152,15 @@ void GameScene::Draw() {
 
 void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
 	
-	bullets_.push_back(enemyBullet);
+	bullets_.push_back(enemyBullet); 
+}
+
+void GameScene::AddEnemy(Vector3 pos) {
+	// 敵
+	Enemy* obj = new Enemy;
+	obj->Initialize(model_, pos);
+	obj->SetPlayer(player_);
+	obj->SetGameScene(this);
+
+	enemy_.push_back(obj);
 }

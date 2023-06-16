@@ -50,6 +50,8 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	void AddEnemy(Vector3 pos);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -69,7 +71,7 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 
 	// 敵
-	Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemy_;
 	std::list<EnemyBullet*> bullets_;
 
 	WorldTransform worldTransform_;

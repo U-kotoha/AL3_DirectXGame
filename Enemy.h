@@ -54,6 +54,9 @@ public:
 	//ワールド座標
 	Vector3 GetWorldPosition();
 
+	//const float GetRadius() { return radius_; }
+	bool GetIsDead() { return isDead_; }
+
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
@@ -78,4 +81,9 @@ private:
 
 	//ゲームシーン
 	GameScene* gameScene_ = nullptr;
+
+	// デスタイマー
+	int32_t deathTimer_ = 300;
+	// デスフラグ
+	bool isDead_ = false;
 };
