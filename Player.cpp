@@ -18,6 +18,8 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	model_ = model;
 	textureHandle_ = textureHandle;
 
+	radius_ = 100;
+
 	// ワールド初期化
 	worldTransform_.Initialize();
 

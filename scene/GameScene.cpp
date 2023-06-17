@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, radius_);
+	player_->Initialize(model_, textureHandle_);
 
 	// 敵
 	enemy_ = new Enemy();
@@ -132,13 +132,13 @@ void GameScene::CheckAllCollisions() {
 
 	for (EnemyBullet* bullet : enemyBullets) {
 		posB = enemybullet_->GetWorldPosition();
-		float posAB = 
+		float distance = 
 			(posB.x - posA.x) * (posB.x - posA.x) +
 			(posB.y - posA.y) * (posB.y - posA.y) + 
 			(posB.z - posA.z) * (posB.z - posA.z);
 
 		//球と球の交差判定
-		if (posAB <= (radius_ + radius2_) * (radius_ + radius2_)) {
+		if (distance <= (player_->GetRadius() + /*enemybullet_->GetRadius()*/ * (player_->GetRadius() + /*enemybullet_->GetRadius()*/)) {
 			player_->OnCollision();
 			bullet->OnCollision();
 		}

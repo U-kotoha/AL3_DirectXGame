@@ -9,6 +9,8 @@ void PlayerBullet::Initialize(Model* model, const Vector3& pos, const Vector3& v
 
 	velocity_ = velocity;
 
+	/*radius_ = 100;*/
+
 	// テクスチャ読み込み
 	texturehandle_ = TextureManager::Load("white1x1.png");
 
