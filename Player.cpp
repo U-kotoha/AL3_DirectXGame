@@ -18,13 +18,13 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	model_ = model;
 	textureHandle_ = textureHandle;
 
-	radius_ = 30;
-
 	// ワールド初期化
 	worldTransform_.Initialize();
 
 	// シングルインスタンスを取得
 	input_ = Input::GetInstance();
+
+	radius_ = 50;
 }
 
 void Player::Update() {
@@ -138,7 +138,7 @@ void Player::Attack() {
 	}
 }
 
-Vector3 Player::GetWorldPosition() { 
+Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;
 
 	worldPos.x = worldTransform_.translation_.x;
@@ -146,8 +146,4 @@ Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
-}
-
-void Player::OnCollision() {
-
 }

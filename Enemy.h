@@ -50,11 +50,12 @@ public:
 	};
 
 	void SetPlayer(Player* player) { player_ = player; }
-	//ワールド座標
-	Vector3 GetWorldPosition();
 
 	// 衝突時コールバック関数
 	void OnCollision();
+
+	// ワールド座標
+	Vector3 GetWorldPosition();
 
 	// 弾リスト取得
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
@@ -75,7 +76,7 @@ private:
 	// 発射タイマー
 	int32_t fireTimer = 0;
 
-	//プレイヤー
+	// プレイヤー
 	Player* player_ = nullptr;
 
 	float radius_;

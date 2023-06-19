@@ -16,8 +16,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 	world_.Initialize();
 	world_.translation_ = pos;
 
-	radius_ = 30;
-
+	radius_ = 50;
 }
 
 void EnemyBullet::Update() {
@@ -42,7 +41,7 @@ void EnemyBullet::Draw(ViewProjection& view) {
 }
 
 void EnemyBullet::OnCollision() {
-	//デスフラグ
+	// デスフラグ
 	isDead_ = true;
 }
 

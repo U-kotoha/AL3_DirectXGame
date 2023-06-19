@@ -27,11 +27,11 @@ public:
 	/// <param name="view">ビュープロダクション</param>
 	void Draw(ViewProjection& view);
 
-	// メンバ関数
-	bool IsDead() const { return isDead_; }
-
 	// 衝突時コールバック関数
 	void OnCollision();
+
+	// メンバ関数
+	bool IsDead() const { return isDead_; }
 
 	const float GetRadius() { return radius_; }
 

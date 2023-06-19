@@ -1,7 +1,7 @@
 ﻿#include "Enemy.h"
 #include "MathUtility.h"
-#include "assert.h"
 #include "Player.h"
+#include "assert.h"
 
 Enemy::~Enemy() {
 	// 弾の解放
@@ -28,10 +28,10 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	worldTransform_.translation_.y = pos.y;
 	worldTransform_.translation_.z = pos.z;
 
-	radius_ = 100;
-
 	// 接近フェーズ初期化
 	Approch_();
+
+	radius_ = 50;
 }
 
 void Enemy::Update() {
@@ -94,21 +94,21 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 
 void Enemy::Fire() {
 	assert(player_);
-	
+
 	// 弾の速度
 	const float kBulletSpeed = 0.5f;
 
-	//ワールド座標
+	// ワールド座標
 	Vector3 playerV = player_->GetWorldPosition();
-	Vector3 enemyV =  Enemy::GetWorldPosition();
+	Vector3 enemyV = Enemy::GetWorldPosition();
 
-	//ベクトル
+	// ベクトル
 	Vector3 playerV_;
 	playerV_.x = enemyV.x - playerV.x;
 	playerV_.y = enemyV.y - playerV.y;
 	playerV_.z = enemyV.z - playerV.z;
 
-	//正規化
+	// 正規化
 	float length =
 	    sqrt(playerV_.x * playerV_.x + playerV_.y + playerV_.y + playerV_.z * playerV_.z);
 
@@ -116,7 +116,7 @@ void Enemy::Fire() {
 	normal.x = playerV_.x / length;
 	normal.y = playerV_.y / length;
 	normal.z = playerV_.z / length;
-	
+
 	normal.x *= kBulletSpeed;
 	normal.y *= kBulletSpeed;
 	normal.z *= kBulletSpeed;
@@ -142,8 +142,4 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
-}
-
-void Enemy::OnCollision() {
-
 }

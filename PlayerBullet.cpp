@@ -9,14 +9,14 @@ void PlayerBullet::Initialize(Model* model, const Vector3& pos, const Vector3& v
 
 	velocity_ = velocity;
 
-	radius_ = 100;
-
 	// テクスチャ読み込み
 	texturehandle_ = TextureManager::Load("white1x1.png");
 
 	// 初期化
 	world_.Initialize();
 	world_.translation_ = pos;
+
+	radius_ = 50;
 }
 
 void PlayerBullet::Update() {
@@ -41,6 +41,6 @@ void PlayerBullet::Draw(ViewProjection& view) {
 }
 
 void PlayerBullet::OnCollision() {
-	//デスフラグ
+	// デスフラグ
 	isDead_ = true;
 }

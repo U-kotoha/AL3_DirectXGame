@@ -10,7 +10,6 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamara_;
 	delete enemy_;
-	delete enemybullet_;
 }
 
 void GameScene::Initialize() {
@@ -21,9 +20,10 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("sample.png");
+
 	// モデル
 	model_ = Model::Create();
-	//ビュープロジェクション
+
 	viewProjection_.Initialize();
 
 	// プレイヤー
@@ -118,36 +118,36 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::CheckAllCollisions() { 
+void GameScene::CheckAllCollisions() {
 	Vector3 posA, posB;
 
-	//自弾リスト
+	// 自弾リスト
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
-	//敵弾リスト
+	// 敵弾リスト
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
 
-	#pragma region 自キャラと敵弾の当たり判定
+#pragma region 自キャラと敵弾の当たり判定
 	posA = player_->GetWorldPosition();
 
 	for (EnemyBullet* bullet : enemyBullets) {
 		posB = enemybullet_->GetWorldPosition();
 
-		float distance = 
-			(posB.x - posA.x) * (posB.x - posA.x) +
-			(posB.y - posA.y) * (posB.y - posA.y) + 
-			(posB.z - posA.z) * (posB.z - posA.z);
+		float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+		                 (posB.y - posA.y) * (posB.y - posA.y) +
+		                 (posB.z - posA.z) * (posB.z - posA.z);
 
-		//球と球の交差判定
-		if (distance <= (player_->GetRadius() + enemybullet_->GetRadius()) * (player_->GetRadius() + enemybullet_->GetRadius())) {
+		// 球と球の交差判定
+		if (distance <= (player_->GetRadius() + enemybullet_->GetRadius()) *
+		                    (player_->GetRadius() + enemybullet_->GetRadius())) {
 			player_->OnCollision();
 			bullet->OnCollision();
 		}
 	}
-	#pragma endregion
+#pragma endregion
 
-	#pragma region 自弾と敵キャラの当たり判定
-	#pragma endregion
+#pragma region 自弾と敵キャラの当たり判定
+#pragma endregion
 
-	#pragma region 自弾と敵弾の当たり判定
-	#pragma endregion
+#pragma region 自弾と敵弾の当たり判定
+#pragma endregion
 }

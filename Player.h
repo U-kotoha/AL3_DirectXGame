@@ -2,9 +2,9 @@
 
 #include "Input.h"
 #include "Model.h"
+#include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "PlayerBullet.h"
 #include <list>
 
 /// <summary>
@@ -37,13 +37,13 @@ public:
 	/// </summary>
 	void Attack();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+	
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
-	//衝突時コールバック関数
-	void OnCollision();
-
-	//弾リスト取得
+	// 弾リスト取得
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 	const float GetRadius() { return radius_; }
