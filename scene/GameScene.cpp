@@ -21,10 +21,9 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("sample.png");
-
 	// モデル
 	model_ = Model::Create();
-
+	//ビュープロジェクション
 	viewProjection_.Initialize();
 
 	// プレイヤー
