@@ -131,6 +131,7 @@ void GameScene::CheckAllCollisions() {
 
 	for (EnemyBullet* bullet : enemyBullets) {
 		posB = enemybullet_->GetWorldPosition();
+
 		float distance = 
 			(posB.x - posA.x) * (posB.x - posA.x) +
 			(posB.y - posA.y) * (posB.y - posA.y) + 
