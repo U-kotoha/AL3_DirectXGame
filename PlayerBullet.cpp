@@ -16,7 +16,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& pos, const Vector3& v
 	world_.Initialize();
 	world_.translation_ = pos;
 
-	radius_ = 50;
+	radius_ = 50.0f;
 }
 
 void PlayerBullet::Update() {
