@@ -68,7 +68,6 @@ private: // メンバ変数
 
 	// 敵
 	Enemy* enemy_ = nullptr;
-	EnemyBullet* enemybullet_ = nullptr;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
