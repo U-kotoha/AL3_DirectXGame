@@ -150,6 +150,59 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
+void GameScene::LoadEnemyPopDate() {
+
+	std::ifstream file;
+	file.open("./Resources./enemyPop.csv");
+	assert(file.is_open());
+
+	enemyPopCommands << file.rdbuf();
+
+	file.close();
+}
+
+void GameScene::UpdateEnemyPopDate() {
+
+
+
+	std::string line;
+
+	while (getline(enemyPopCommands, line)) {
+		std::istringstream line_stream(line);
+
+		std::string word;
+
+		getline(line_stream, word, ',');
+
+		if (word.find("//") == 0) {
+			continue;
+		}
+
+		if (word.find("POP") == 0) {
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			(Vector3(x, y, z));
+		}
+
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			int32_t waitTime = atoi(word.c_str());
+
+
+
+			break;
+		}
+	}
+}
+
 void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
 	
 	bullets_.push_back(enemyBullet); 

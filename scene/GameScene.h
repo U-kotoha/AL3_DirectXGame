@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
@@ -45,6 +46,16 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopDate();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopDate();
+
+	/// <summary>
 	/// 敵弾を追加する
 	/// </summary>
 	/// <param name="enemyBullet">敵弾</param>
@@ -73,6 +84,8 @@ private: // メンバ変数
 	// 敵
 	std::list<Enemy*> enemy_;
 	std::list<EnemyBullet*> bullets_;
+
+	std::stringstream enemyPopCommands;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
