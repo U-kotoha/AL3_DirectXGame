@@ -137,7 +137,7 @@ void GameScene::CheckAllCollisions() {
 			(posB.z - posA.z) * (posB.z - posA.z);
 
 		//球と球の交差判定
-		if (distance <= (player_->GetRadius() + /*enemybullet_->GetRadius()*/ * (player_->GetRadius() + /*enemybullet_->GetRadius()*/)) {
+		if (distance <= (player_->GetRadius() + enemybullet_->GetRadius()) * (player_->GetRadius() + enemybullet_->GetRadius())) {
 			player_->OnCollision();
 			bullet->OnCollision();
 		}

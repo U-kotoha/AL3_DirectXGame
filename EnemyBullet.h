@@ -36,7 +36,7 @@ public:
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
-	/*const float GetRadius() { return radius_; }*/
+	const float GetRadius() { return radius_; }
 
 private:
 	// ワールド変換
@@ -54,4 +54,6 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ
 	bool isDead_ = false;
+
+	float radius_;
 };

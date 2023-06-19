@@ -2,9 +2,9 @@
 
 #include "Input.h"
 #include "Model.h"
-#include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "PlayerBullet.h"
 #include <list>
 
 /// <summary>
@@ -59,5 +59,6 @@ private:
 	Input* input_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
+
 	float radius_;
 };

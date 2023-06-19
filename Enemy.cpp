@@ -28,6 +28,8 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	worldTransform_.translation_.y = pos.y;
 	worldTransform_.translation_.z = pos.z;
 
+	radius_ = 100;
+
 	// 接近フェーズ初期化
 	Approch_();
 }
