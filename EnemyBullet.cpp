@@ -16,7 +16,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 	world_.Initialize();
 	world_.translation_ = pos;
 
-	radius_ = 10.0f;
+	radius_ = 50.0f;
 }
 
 void EnemyBullet::Update() {
