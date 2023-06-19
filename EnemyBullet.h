@@ -55,5 +55,7 @@ private:
 	// デスフラグ
 	bool isDead_ = false;
 
+	//デスフラグを立てる
+	bool Dead_ = false;
 	float radius_;
 };

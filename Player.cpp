@@ -24,7 +24,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// シングルインスタンスを取得
 	input_ = Input::GetInstance();
 
-	radius_ = 500;
+	radius_ = 100.0f;
 }
 
 void Player::Update() {
