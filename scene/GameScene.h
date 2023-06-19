@@ -3,14 +3,14 @@
 #include "Audio.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
-#include "Enemy.h"
 #include "Input.h"
-#include "Model.h"
-#include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Model.h"
+#include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -59,18 +59,15 @@ private: // メンバ変数
 
 	// テクスチャ
 	uint32_t textureHandle_ = 0;
-
 	// モデル
 	Model* model_ = nullptr;
 
 	// プレイヤー
 	Player* player_ = nullptr;
-	float radius_ = 50;
 
 	// 敵
 	Enemy* enemy_ = nullptr;
 	EnemyBullet* enemybullet_ = nullptr;
-	float radius2_ = 50;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;

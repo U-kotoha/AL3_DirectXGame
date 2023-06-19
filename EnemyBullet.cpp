@@ -1,7 +1,7 @@
 ﻿#include "EnemyBullet.h"
 #include <cassert>
 
-void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& velocity, float radius) {
+void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& velocity) {
 	// NULLポインタチェック
 	assert(model);
 
@@ -16,7 +16,6 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 	world_.Initialize();
 	world_.translation_ = pos;
 
-	float r = radius;
 }
 
 void EnemyBullet::Update() {
