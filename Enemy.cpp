@@ -31,7 +31,6 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	// 接近フェーズ初期化
 	Approch_();
 
-	radius_ = 50.0f;
 }
 
 void Enemy::Update() {

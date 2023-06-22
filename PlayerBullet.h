@@ -33,8 +33,6 @@ public:
 	// メンバ関数
 	bool IsDead() const { return isDead_; }
 
-	const float GetRadius() { return radius_; }
-
 private:
 	// ワールド変換
 	WorldTransform world_;
@@ -53,5 +51,4 @@ private:
 	// デスフラグ
 	bool isDead_ = false;
 
-	float radius_;
 };

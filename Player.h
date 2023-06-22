@@ -46,8 +46,6 @@ public:
 	// 弾リスト取得
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
-	const float GetRadius() { return radius_; }
-
 private:
 	// ワールド
 	WorldTransform worldTransform_;
@@ -60,5 +58,4 @@ private:
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
-	float radius_;
 };
