@@ -136,7 +136,7 @@ void GameScene::CheckAllCollisions() {
 		                 (posB.y - posA.y) * (posB.y - posA.y) +
 		                 (posB.z - posA.z) * (posB.z - posA.z);
 
-		const float RadiusMix = 10.0f;
+		const float RadiusMix = 100.0f;
 
 		// 球と球の交差判定
 		if (distance <= RadiusMix) {
