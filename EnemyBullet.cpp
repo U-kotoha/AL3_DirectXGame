@@ -36,14 +36,12 @@ void EnemyBullet::Update() {
 
 void EnemyBullet::Draw(ViewProjection& view) {
 	// モデルの描画
-	if (Dead_ == false) {
-		model_->Draw(world_, view, texturehandle_);
-	}
+	model_->Draw(world_, view, texturehandle_);
 }
 
 void EnemyBullet::OnCollision() {
 	// デスフラグ
-	Dead_ = true;
+	isDead_ = true;
 }
 
 Vector3 EnemyBullet::GetWorldPosition() {
