@@ -8,6 +8,7 @@ Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
 	}
+	delete sprite2DReticle_;
 }
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
@@ -23,6 +24,13 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 	// シングルインスタンスを取得
 	input_ = Input::GetInstance();
+
+	worldTransform3DReticle_.Initialize();
+	reticle = Model::CreateFromOBJ("cube", true);
+
+	uint32_t textureReticle = TextureManager::Load("target.png");
+	sprite2DReticle_ = Sprite::Create({640, 360}, {1, 1, 1}, {0.5f, 0.5f});
+
 }
 
 void Player::Update() {

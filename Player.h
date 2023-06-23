@@ -52,4 +52,7 @@ private:
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
+
+	WorldTransform worldTransform3DReticle_;
+	Sprite* sprite2DReticle_ = nullptr;
 };
