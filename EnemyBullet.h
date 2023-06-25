@@ -30,11 +30,11 @@ public:
 	// 衝突時コールバック関数
 	void OnCollision();
 
-	// ワールド座標
-	Vector3 GetWorldPosition();
-
 	// メンバ関数
 	bool IsDead() const { return isDead_; }
+
+	// ワールド座標
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールド変換
@@ -52,5 +52,4 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ
 	bool isDead_ = false;
-
 };

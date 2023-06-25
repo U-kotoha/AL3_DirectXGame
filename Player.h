@@ -39,7 +39,7 @@ public:
 
 	// 衝突時コールバック関数
 	void OnCollision();
-	
+
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
@@ -57,5 +57,4 @@ private:
 	Input* input_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
-
 };

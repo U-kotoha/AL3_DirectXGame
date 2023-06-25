@@ -15,7 +15,6 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 	// 初期化
 	world_.Initialize();
 	world_.translation_ = pos;
-
 }
 
 void EnemyBullet::Update() {
@@ -40,11 +39,11 @@ void EnemyBullet::Draw(ViewProjection& view) {
 }
 
 void EnemyBullet::OnCollision() {
-	// デスフラグ
-	isDead_ = true;
+	//デスフラグ
+	isDead_ = true; 
 }
 
-Vector3 EnemyBullet::GetWorldPosition() {
+Vector3 EnemyBullet::GetWorldPosition() { 
 	Vector3 worldPos;
 
 	worldPos.x = world_.translation_.x;

@@ -23,7 +23,6 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 	// シングルインスタンスを取得
 	input_ = Input::GetInstance();
-
 }
 
 void Player::Update() {
@@ -136,6 +135,8 @@ void Player::Attack() {
 		bullets_.push_back(newBullet);
 	}
 }
+
+void Player::OnCollision() {}
 
 Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;

@@ -30,7 +30,6 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 
 	// 接近フェーズ初期化
 	Approch_();
-
 }
 
 void Enemy::Update() {
@@ -127,6 +126,8 @@ void Enemy::Fire() {
 	// 弾の登録
 	bullets_.push_back(newBullet);
 }
+
+void Enemy::OnCollision() {}
 
 void Enemy::Approch_() {
 	// 発射タイマーを初期化

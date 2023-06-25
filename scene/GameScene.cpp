@@ -126,7 +126,7 @@ void GameScene::CheckAllCollisions() {
 	// 敵弾リスト
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
 
-#pragma region 自キャラと敵弾の当たり判定
+	#pragma region 自キャラと敵弾の当たり判定
 	posA = player_->GetWorldPosition();
 
 	for (EnemyBullet* bullet : enemyBullets) {
@@ -136,10 +136,10 @@ void GameScene::CheckAllCollisions() {
 		                 (posB.y - posA.y) * (posB.y - posA.y) +
 		                 (posB.z - posA.z) * (posB.z - posA.z);
 
-		const float RadiusMix = 20.0f;
+		const float Radius = 20.0f;
 
 		// 球と球の交差判定
-		if (distance <= (RadiusMix * RadiusMix)) {
+		if (distance <= Radius) {
 			player_->OnCollision();
 			bullet->OnCollision();
 		}

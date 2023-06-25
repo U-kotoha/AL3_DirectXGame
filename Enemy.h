@@ -1,10 +1,10 @@
 ﻿#pragma once
 
+#include "EnemyBullet.h"
 #include "Model.h"
 #include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "EnemyBullet.h"
 #include <list>
 
 /// <summary>
@@ -38,6 +38,9 @@ public:
 	/// </summary>
 	void Fire();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
 	// 弾の発射間隔
 	static const int kFireInterval = 60;
 	// 接近フェーズ初期化
@@ -50,10 +53,6 @@ public:
 	};
 
 	void SetPlayer(Player* player) { player_ = player; }
-
-	// 衝突時コールバック関数
-	void OnCollision();
-
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
@@ -76,5 +75,4 @@ private:
 
 	// プレイヤー
 	Player* player_ = nullptr;
-
 };

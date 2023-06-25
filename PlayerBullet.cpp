@@ -15,7 +15,6 @@ void PlayerBullet::Initialize(Model* model, const Vector3& pos, const Vector3& v
 	// 初期化
 	world_.Initialize();
 	world_.translation_ = pos;
-
 }
 
 void PlayerBullet::Update() {
@@ -40,6 +39,6 @@ void PlayerBullet::Draw(ViewProjection& view) {
 }
 
 void PlayerBullet::OnCollision() {
-	// デスフラグ
+	//デスフラグ
 	isDead_ = true;
 }
