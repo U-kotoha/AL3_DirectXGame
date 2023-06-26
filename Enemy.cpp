@@ -34,6 +34,15 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 
 void Enemy::Update() {
 
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
 	switch (phase_) {
 	case Enemy::Phase::Approch:
 		// 移動(ベクトル加算)
@@ -59,15 +68,6 @@ void Enemy::Update() {
 	case Enemy::Phase::Leave:
 		break;
 	}
-
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
 
 	// 弾の更新
 	for (EnemyBullet* bullet : bullets_) {
