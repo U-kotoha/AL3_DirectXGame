@@ -50,9 +50,5 @@ Vector3 EnemyBullet::GetWorldPosition() {
 	worldPos.y = world_.translation_.y;
 	worldPos.z = world_.translation_.z;
 
-	/*worldPos.x = world_.matWorld_.m[3][0];
-	worldPos.y = world_.matWorld_.m[3][1];
-	worldPos.z = world_.matWorld_.m[3][2];*/
-
 	return worldPos;
 }

@@ -65,7 +65,7 @@ private:
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
-	uint32_t textureHandle_;
+	uint32_t textureHandle_ = 0;
 	// フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
 	// 敵の弾

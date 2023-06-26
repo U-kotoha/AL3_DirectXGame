@@ -50,9 +50,10 @@ void Enemy::Update() {
 		}
 
 		// 一定の位置になったら行動フェーズが変わる
-		if (worldTransform_.translation_.z < 0.0f) {
+		/*if (worldTransform_.translation_.z < 0.0f) {
 			phase_ = Enemy::Phase::Leave;
-		}
+		}*/
+
 		break;
 
 	case Enemy::Phase::Leave:
