@@ -35,7 +35,9 @@ void GameScene::Initialize() {
 	// 敵
 	enemy_ = new Enemy();
 	enemy_->Initialize(model_, pos_);
+	enemy_->SetPlayer(player_);
 
+	// 天球
 	skydome_ = new Skydome();
 	skydome_->Initialize(model_);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -54,6 +56,9 @@ void GameScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	skydome_->Update();
+
+	// 衝突判定
+	CheckAllCollisions();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
@@ -103,7 +108,7 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
-
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -119,5 +124,77 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
+#pragma endregion
+}
+
+void GameScene::CheckAllCollisions() {
+	Vector3 posA, posB;
+
+	// 自弾リスト
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+
+	// 敵弾リスト
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+#pragma region 自キャラと敵弾の当たり判定
+	posA = player_->GetWorldPosition();
+
+	for (EnemyBullet* bullet : enemyBullets) {
+		posB = bullet->GetWorldPosition();
+
+		float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+		                 (posB.y - posA.y) * (posB.y - posA.y) +
+		                 (posB.z - posA.z) * (posB.z - posA.z);
+
+		const float Radius = 20.0f;
+
+		// 球と球の交差判定
+		if (distance <= Radius) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	posA = enemy_->GetWorldPosition();
+
+	for (PlayerBullet* bullet : playerBullets) {
+		posB = bullet->GetWorldPosition();
+
+		float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+		                 (posB.y - posA.y) * (posB.y - posA.y) +
+		                 (posB.z - posA.z) * (posB.z - posA.z);
+
+		const float Radius = 20.0f;
+
+		// 球と球の交差判定
+		if (distance <= Radius) {
+			enemy_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+	for (PlayerBullet* bullet_ : playerBullets) {
+		posA = bullet_->GetWorldPosition();
+
+		for (EnemyBullet* bullet : enemyBullets) {
+			posB = bullet->GetWorldPosition();
+
+			float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+			                 (posB.y - posA.y) * (posB.y - posA.y) +
+			                 (posB.z - posA.z) * (posB.z - posA.z);
+
+			const float Radius = 20.0f;
+
+			// 球と球の交差判定
+			if (distance <= Radius) {
+				bullet_->OnCollision();
+				bullet->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 }

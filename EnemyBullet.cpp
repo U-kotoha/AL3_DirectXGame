@@ -20,6 +20,8 @@ void EnemyBullet::Initialize(Model* model, const Vector3& pos, const Vector3& ve
 void EnemyBullet::Update() {
 
 	// 座標を移動させる
+	world_.translation_.x -= velocity_.x;
+	world_.translation_.y -= velocity_.y;
 	world_.translation_.z -= velocity_.z;
 
 	// 更新
@@ -34,4 +36,19 @@ void EnemyBullet::Update() {
 void EnemyBullet::Draw(ViewProjection& view) {
 	// モデルの描画
 	model_->Draw(world_, view, texturehandle_);
+}
+
+void EnemyBullet::OnCollision() {
+	// デスフラグ
+	isDead_ = true;
+}
+
+Vector3 EnemyBullet::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = world_.translation_.x;
+	worldPos.y = world_.translation_.y;
+	worldPos.z = world_.translation_.z;
+
+	return worldPos;
 }

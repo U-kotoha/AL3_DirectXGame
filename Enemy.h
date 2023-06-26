@@ -9,6 +9,7 @@
 /// <summary>
 /// 敵
 /// </summary>
+class Player;
 class Enemy {
 public:
 	/// <summary>
@@ -36,6 +37,9 @@ public:
 	/// </summary>
 	void Fire();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
 	// 弾の発射間隔
 	static const int kFireInterval = 60;
 	// 接近フェーズ初期化
@@ -46,6 +50,13 @@ public:
 		Approch, //接近する
 		Leave, //離脱する
 	};
+
+	void SetPlayer(Player* player) { player_ = player; }
+	// ワールド座標
+	Vector3 GetWorldPosition();
+
+	// 弾リスト取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// ワールドトランスフォーム
@@ -60,7 +71,9 @@ private:
 
 	//敵の弾
 	std::list<EnemyBullet*> bullets_;
-	
 	//発射タイマー
 	int32_t fireTimer = 0;
+
+	// プレイヤー
+	Player* player_ = nullptr;
 };
