@@ -46,7 +46,7 @@ void Enemy::Update() {
 	switch (phase_) {
 	case Enemy::Phase::Approch:
 		// 移動(ベクトル加算)
-		worldTransform_.translation_.z -= 0.10f;
+		worldTransform_.translation_.z -= 0.05f;
 
 		// 発射タイマーカウントダウン
 		fireTimer--;
@@ -59,9 +59,9 @@ void Enemy::Update() {
 		}
 
 		// 一定の位置になったら行動フェーズが変わる
-		/*if (worldTransform_.translation_.z < 0.0f) {
+		if (worldTransform_.translation_.z < -20.0f) {
 			phase_ = Enemy::Phase::Leave;
-		}*/
+		}
 
 		break;
 
