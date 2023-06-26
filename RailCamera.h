@@ -21,7 +21,7 @@ public:
 	void Update();
 
 private:
-	// ワールドトランスフォーム
+	// ワールド変換
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;

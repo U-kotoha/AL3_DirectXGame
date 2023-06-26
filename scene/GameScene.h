@@ -11,6 +11,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Skydome.h"
 #include "RailCamera.h"
 
 /// <summary>
@@ -44,6 +45,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollisions();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -64,10 +70,14 @@ private: // メンバ変数
 
 	// 敵
 	Enemy* enemy_ = nullptr;
+	Vector3 pos_ = {20.0f, 2.0f, 30.0f};
+
+	// 天球
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Vector3 pos_ = {30.0f, 2.0f, 40.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;

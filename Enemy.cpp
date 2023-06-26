@@ -34,10 +34,19 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 
 void Enemy::Update() {
 
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
 	switch (phase_) {
 	case Enemy::Phase::Approch:
 		// 移動(ベクトル加算)
-		worldTransform_.translation_.z -= 0.10f;
+		worldTransform_.translation_.z -= 0.05f;
 
 		// 発射タイマーカウントダウン
 		fireTimer--;
@@ -50,23 +59,15 @@ void Enemy::Update() {
 		}
 
 		// 一定の位置になったら行動フェーズが変わる
-		if (worldTransform_.translation_.z < 0.0f) {
+		if (worldTransform_.translation_.z < -20.0f) {
 			phase_ = Enemy::Phase::Leave;
 		}
+
 		break;
 
 	case Enemy::Phase::Leave:
 		break;
 	}
-
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
 
 	// 弾の更新
 	for (EnemyBullet* bullet : bullets_) {
@@ -126,6 +127,8 @@ void Enemy::Fire() {
 	// 弾の登録
 	bullets_.push_back(newBullet);
 }
+
+void Enemy::OnCollision() {}
 
 void Enemy::Approch_() {
 	// 発射タイマーを初期化
