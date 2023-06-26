@@ -26,6 +26,8 @@ void GameScene::Initialize() {
 	// モデル
 	model_ = Model::Create();
 
+	// ビュープロジェクション
+	viewProjection_.farZ = 2000.0f;
 	viewProjection_.Initialize();
 
 	// プレイヤー
@@ -39,8 +41,8 @@ void GameScene::Initialize() {
 
 	// 天球
 	skydome_ = new Skydome();
-	skydome_->Initialize(model_);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	skydome_->Initialize(modelSkydome_);
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);

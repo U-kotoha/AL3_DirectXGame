@@ -69,6 +69,7 @@ private: // メンバ変数
 
 	// 敵
 	Enemy* enemy_ = nullptr;
+	Vector3 pos_ = {20.0f, 2.0f, 30.0f};
 
 	// 天球
 	Skydome* skydome_ = nullptr;
@@ -76,7 +77,6 @@ private: // メンバ変数
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Vector3 pos_ = {20.0f, 2.0f, 30.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
