@@ -12,6 +12,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Skydome.h"
+#include "RailCamera.h"
 #include <sstream>
 
 /// <summary>
@@ -44,6 +46,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollisions();
 
 	/// <summary>
 	/// 敵発生データの読み込み
@@ -84,14 +91,20 @@ private: // メンバ変数
 	// 敵
 	std::list<Enemy*> enemy_;
 	std::list<EnemyBullet*> bullets_;
-
 	std::stringstream enemyPopCommands;
+	Vector3 pos_ = {20.0f, 2.0f, 30.0f};
+
+	// 天球
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Vector3 pos_ = {30.0f, 2.0f, 40.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
 	DebugCamera* debugCamara_ = nullptr;
+
+	// レールカメラ
+	RailCamera* railCamera_ = nullptr;
 };

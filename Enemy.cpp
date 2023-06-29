@@ -105,6 +105,8 @@ void Enemy::Fire() {
 	gameScene_->AddEnemyBullet(newBullet);
 }
 
+void Enemy::OnCollision() {}
+
 void Enemy::Approch_() {
 	// 発射タイマーを初期化
 	fireTimer = kFireInterval;

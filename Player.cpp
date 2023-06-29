@@ -10,13 +10,14 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 position) {
 	// NULLチェック
 	assert(model);
 
 	// 受け渡し
 	model_ = model;
 	textureHandle_ = textureHandle;
+	worldTransform_.translation_ = position;
 
 	// ワールド初期化
 	worldTransform_.Initialize();
@@ -136,6 +137,8 @@ void Player::Attack() {
 	}
 }
 
+void Player::OnCollision() {}
+
 Vector3 Player::GetWorldPosition() { 
 	Vector3 worldPos;
 
@@ -144,4 +147,9 @@ Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransform_.parent_ = parent;
 }
