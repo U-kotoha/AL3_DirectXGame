@@ -2,6 +2,7 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <fstream>
 
 GameScene::GameScene() {}
 
@@ -146,7 +147,9 @@ void GameScene::Draw() {
 	}
 
 	player_->Draw(viewProjection_);
-	enemy_->Draw(viewProjection_);
+	for (Enemy* enemy : enemy_) {
+		enemy->Draw(viewProjection_); 
+	}
 	skydome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
@@ -174,7 +177,7 @@ void GameScene::CheckAllCollisions() {
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 
 	// 敵弾リスト
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+	std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
 
 #pragma region 自キャラと敵弾の当たり判定
 	posA = player_->GetWorldPosition();
@@ -197,7 +200,9 @@ void GameScene::CheckAllCollisions() {
 #pragma endregion
 
 #pragma region 自弾と敵キャラの当たり判定
-	posA = enemy_->GetWorldPosition();
+	for (Enemy* enemy : enemy_) {
+		posA = enemy->GetWorldPosition();
+	}
 
 	for (PlayerBullet* bullet : playerBullets) {
 		posB = bullet->GetWorldPosition();
@@ -210,7 +215,9 @@ void GameScene::CheckAllCollisions() {
 
 		// 球と球の交差判定
 		if (distance <= Radius) {
-			enemy_->OnCollision();
+			for (Enemy* enemy : enemy_) {
+				enemy->OnCollision();
+			}
 			bullet->OnCollision();
 		}
 	}
@@ -250,9 +257,16 @@ void GameScene::LoadEnemyPopDate() {
 	file.close();
 }
 
-void GameScene::UpdateEnemyPopDate() {
+void GameScene::UpdateEnemyPopCommands() {
 
-
+	//待機処理
+	if (isWait_) {
+		WaitTimer_--;
+		if (WaitTimer_ <= 0) {
+			isWait_ = false;
+		}
+		return;
+	}
 
 	std::string line;
 
@@ -277,7 +291,7 @@ void GameScene::UpdateEnemyPopDate() {
 			getline(line_stream, word, ',');
 			float z = (float)std::atof(word.c_str());
 
-			(Vector3(x, y, z));
+			AddEnemy(Vector3(x, y, z));
 		}
 
 		else if (word.find("WAIT") == 0) {
@@ -285,7 +299,8 @@ void GameScene::UpdateEnemyPopDate() {
 
 			int32_t waitTime = atoi(word.c_str());
 
-
+			isWait_ = true;
+			WaitTimer_ = waitTime;
 
 			break;
 		}

@@ -60,7 +60,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
-	void UpdateEnemyPopDate();
+	void UpdateEnemyPopCommands();
 
 	/// <summary>
 	/// 敵弾を追加する
@@ -107,4 +107,7 @@ private: // メンバ変数
 
 	// レールカメラ
 	RailCamera* railCamera_ = nullptr;
+
+	bool isWait_ = false;
+	int32_t WaitTimer_;
 };
