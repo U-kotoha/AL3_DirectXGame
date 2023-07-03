@@ -76,7 +76,7 @@ void GameScene::Update() {
 		bullet->Update();
 	}
 
-	//更新
+	// 更新
 	player_->Update();
 	skydome_->Update();
 	railCamera_->Update();
@@ -140,7 +140,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+
 	// 弾の描画
 	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection_);
@@ -148,7 +148,7 @@ void GameScene::Draw() {
 
 	player_->Draw(viewProjection_);
 	for (Enemy* enemy : enemy_) {
-		enemy->Draw(viewProjection_); 
+		enemy->Draw(viewProjection_);
 	}
 	skydome_->Draw(viewProjection_);
 
@@ -173,14 +173,57 @@ void GameScene::Draw() {
 void GameScene::CheckAllCollisions() {
 	Vector3 posA, posB;
 
-		// 自弾リスト
-		const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	// 自弾リスト
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 
-		// 敵弾リスト
-		const std::list<EnemyBullet*>& enemyBullets = GetBullets();
+	// 敵弾リスト
+	const std::list<EnemyBullet*>& enemyBullets = GetBullets();
 
 #pragma region 自キャラと敵弾の当たり判定
-		posA = player_->GetWorldPosition();
+	posA = player_->GetWorldPosition();
+
+	for (EnemyBullet* bullet : enemyBullets) {
+		posB = bullet->GetWorldPosition();
+
+		float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+		                 (posB.y - posA.y) * (posB.y - posA.y) +
+		                 (posB.z - posA.z) * (posB.z - posA.z);
+
+		const float Radius = 20.0f;
+
+		// 球と球の交差判定
+		if (distance <= Radius) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	for (Enemy* enemy : enemy_) {
+		posA = enemy->GetWorldPosition();
+
+		for (PlayerBullet* bullet : playerBullets) {
+			posB = bullet->GetWorldPosition();
+
+			float distance = (posB.x - posA.x) * (posB.x - posA.x) +
+			                 (posB.y - posA.y) * (posB.y - posA.y) +
+			                 (posB.z - posA.z) * (posB.z - posA.z);
+
+			const float Radius = 20.0f;
+
+			// 球と球の交差判定
+			if (distance <= Radius) {
+				enemy->OnCollision();
+				bullet->OnCollision();
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+	for (PlayerBullet* bullet_ : playerBullets) {
+		posA = bullet_->GetWorldPosition();
 
 		for (EnemyBullet* bullet : enemyBullets) {
 			posB = bullet->GetWorldPosition();
@@ -193,54 +236,11 @@ void GameScene::CheckAllCollisions() {
 
 			// 球と球の交差判定
 			if (distance <= Radius) {
-				player_->OnCollision();
+				bullet_->OnCollision();
 				bullet->OnCollision();
 			}
 		}
-#pragma endregion
-
-#pragma region 自弾と敵キャラの当たり判定
-		for (Enemy* enemy : enemy_) {
-			posA = enemy->GetWorldPosition();
-
-			for (PlayerBullet* bullet : playerBullets) {
-				posB = bullet->GetWorldPosition();
-
-				float distance = (posB.x - posA.x) * (posB.x - posA.x) +
-				                 (posB.y - posA.y) * (posB.y - posA.y) +
-				                 (posB.z - posA.z) * (posB.z - posA.z);
-
-				const float Radius = 20.0f;
-
-				// 球と球の交差判定
-				if (distance <= Radius) {
-					enemy->OnCollision();
-					bullet->OnCollision();
-				}
-			}
-		}
-#pragma endregion
-
-#pragma region 自弾と敵弾の当たり判定
-		for (PlayerBullet* bullet_ : playerBullets) {
-			posA = bullet_->GetWorldPosition();
-
-			for (EnemyBullet* bullet : enemyBullets) {
-				posB = bullet->GetWorldPosition();
-
-				float distance = (posB.x - posA.x) * (posB.x - posA.x) +
-				                 (posB.y - posA.y) * (posB.y - posA.y) +
-				                 (posB.z - posA.z) * (posB.z - posA.z);
-
-				const float Radius = 20.0f;
-
-				// 球と球の交差判定
-				if (distance <= Radius) {
-					bullet_->OnCollision();
-					bullet->OnCollision();
-				}
-			}
-		}
+	}
 #pragma endregion
 }
 
@@ -257,7 +257,7 @@ void GameScene::LoadEnemyPopDate() {
 
 void GameScene::UpdateEnemyPopCommands() {
 
-	//待機処理
+	// 待機処理
 	if (isWait_) {
 		WaitTimer_--;
 		if (WaitTimer_ <= 0) {
@@ -305,10 +305,7 @@ void GameScene::UpdateEnemyPopCommands() {
 	}
 }
 
-void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
-	
-	bullets_.push_back(enemyBullet);
-}
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { bullets_.push_back(enemyBullet); }
 
 void GameScene::AddEnemy(Vector3 pos) {
 	// 敵
