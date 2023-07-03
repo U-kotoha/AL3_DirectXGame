@@ -61,9 +61,6 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
-	// 弾リスト取得
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
-
 private:
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -83,9 +80,7 @@ private:
 
 	//プレイヤー
 	Player* player_ = nullptr;
-	
 	//ゲームシーン
 	GameScene* gameScene_ = nullptr;
 
-	std::list<EnemyBullet*> bullets_;
 };

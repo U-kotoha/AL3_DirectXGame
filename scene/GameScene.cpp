@@ -46,7 +46,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.0f});
 
-	AddEnemy(pos_);//0,3,50
+	UpdateEnemyPopCommands();
 
 	// 天球
 	skydome_ = new Skydome();
@@ -177,8 +177,7 @@ void GameScene::CheckAllCollisions() {
 		const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 
 		// 敵弾リスト
-	    for (Enemy* enemy : enemy_) {
-		const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
+		const std::list<EnemyBullet*>& enemyBullets = GetBullets();
 
 #pragma region 自キャラと敵弾の当たり判定
 		posA = player_->GetWorldPosition();
@@ -242,14 +241,13 @@ void GameScene::CheckAllCollisions() {
 				}
 			}
 		}
-	    }
 #pragma endregion
 }
 
 void GameScene::LoadEnemyPopDate() {
 
 	std::ifstream file;
-	file.open("./Resources./enemyPop.csv");
+	file.open("./Resources/enemyPop.csv");
 	assert(file.is_open());
 
 	enemyPopCommands << file.rdbuf();
