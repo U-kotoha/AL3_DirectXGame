@@ -70,6 +70,9 @@ public: // メンバ関数
 
 	void AddEnemy(Vector3 pos);
 
+	// 弾リスト取得
+	//const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
