@@ -305,7 +305,9 @@ void GameScene::UpdateEnemyPopCommands() {
 	}
 }
 
-void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { bullets_.push_back(enemyBullet); }
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
+	bullets_.push_back(enemyBullet); 
+}
 
 void GameScene::AddEnemy(Vector3 pos) {
 	// 敵
