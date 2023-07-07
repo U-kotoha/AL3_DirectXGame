@@ -102,7 +102,7 @@ void Enemy::Fire() {
 	EnemyBullet* newBullet = new EnemyBullet;
 	newBullet->Initialize(model_, worldTransform_.translation_, normal);
 
-	//gameScene_->AddEnemyBullet(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::OnCollision() {}
