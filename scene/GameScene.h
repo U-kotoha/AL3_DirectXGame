@@ -68,6 +68,9 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	/// <summary>
+	/// 敵発生
+	/// </summary>
 	void AddEnemy(Vector3 pos);
 
 	// 弾リスト取得

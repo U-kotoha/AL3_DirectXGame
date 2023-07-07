@@ -46,8 +46,6 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.0f});
 
-	UpdateEnemyPopCommands();
-
 	// 天球
 	skydome_ = new Skydome();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -62,6 +60,10 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// 敵発生
+	LoadEnemyPopDate();
+	UpdateEnemyPopCommands();
+
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
