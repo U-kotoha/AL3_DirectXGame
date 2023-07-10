@@ -98,7 +98,6 @@ private: // メンバ変数
 	std::list<Enemy*> enemy_;
 	std::list<EnemyBullet*> bullets_;
 	std::stringstream enemyPopCommands;
-	Vector3 pos_ = {20.0f, 2.0f, 30.0f};
 
 	// 天球
 	Skydome* skydome_ = nullptr;
