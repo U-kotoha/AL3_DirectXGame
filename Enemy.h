@@ -72,7 +72,7 @@ private:
 	Phase phase_ = Enemy::Phase::Approch;
 	
 	// 発射タイマー
-	int32_t fireTimer = 0;
+	int32_t fireTimer = 60;
 	// デスタイマー
 	int32_t deathTimer_ = 300;
 	// デスフラグ
