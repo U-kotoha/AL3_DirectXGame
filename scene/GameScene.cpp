@@ -53,7 +53,7 @@ void GameScene::Initialize() {
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
-	LoadEnemyPopDate();
+
 	// 軸方向の表示
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
@@ -97,7 +97,7 @@ void GameScene::Update() {
 	}
 
 	// 敵発生
-	
+	LoadEnemyPopDate();
 	UpdateEnemyPopCommands();
 
 #ifdef _DEBUG
