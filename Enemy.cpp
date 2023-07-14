@@ -54,6 +54,9 @@ void Enemy::Update() {
 		break;
 
 	case Enemy::Phase::Leave:
+		worldTransform_.translation_.x = -100.f;
+		worldTransform_.translation_.y = -100.f;
+		worldTransform_.translation_.z = -100.f;
 		break;
 	}
 

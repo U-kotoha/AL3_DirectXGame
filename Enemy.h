@@ -43,7 +43,7 @@ public:
 	void OnCollision();
 
 	// 弾の発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 120;
 	// 接近フェーズ初期化
 	void Approch_();
 
@@ -74,7 +74,7 @@ private:
 	// 発射タイマー
 	int32_t fireTimer = 60;
 	// デスタイマー
-	int32_t deathTimer_ = 300;
+	int32_t deathTimer_ = 120;
 	// デスフラグ
 	bool isDead_ = false;
 
