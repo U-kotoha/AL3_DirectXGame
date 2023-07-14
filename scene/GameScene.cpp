@@ -91,14 +91,14 @@ void GameScene::Update() {
 		return false;
 	});
 
+	// 敵発生
+	LoadEnemyPopDate();
+	UpdateEnemyPopCommands();
+
 	// 敵の更新
 	for (Enemy* enemy : enemy_) {
 		enemy->Update();
 	}
-
-	// 敵発生
-	LoadEnemyPopDate();
-	UpdateEnemyPopCommands();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
@@ -144,15 +144,14 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	// 弾の描画
+	for (Enemy* enemy : enemy_) {
+		enemy->Draw(viewProjection_);
+	}
 	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection_);
 	}
 
 	player_->Draw(viewProjection_);
-	for (Enemy* enemy : enemy_) {
-		enemy->Draw(viewProjection_);
-	}
 	skydome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
