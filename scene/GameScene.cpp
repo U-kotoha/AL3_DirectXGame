@@ -53,16 +53,13 @@ void GameScene::Initialize() {
 
 	// デバッグカメラ
 	debugCamara_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
-
+	LoadEnemyPopDate();
 	// 軸方向の表示
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 }
 
 void GameScene::Update() {
-	// 敵発生
-	LoadEnemyPopDate();
-	UpdateEnemyPopCommands();
 
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](EnemyBullet* bullet) {
@@ -98,6 +95,10 @@ void GameScene::Update() {
 	for (Enemy* enemy : enemy_) {
 		enemy->Update();
 	}
+
+	// 敵発生
+	
+	UpdateEnemyPopCommands();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
