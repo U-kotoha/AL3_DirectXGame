@@ -40,7 +40,7 @@ void Player::Update() {
 	// 移動ベクトル
 	Vector3 move = {0, 0, 0};
 	// 移動の速さ
-	const float kCharacterSpeed = 0.2f;
+	const float kCharacterSpeed = 0.3f;
 
 	// 上下左右の移動
 	if (input_->PushKey(DIK_LEFT)) {
@@ -72,8 +72,8 @@ void Player::Update() {
 	}
 
 	// 移動限界座標
-	const float kMoveLimitX = 30.0f;
-	const float kMoveLimitY = 15.0f;
+	const float kMoveLimitX = 40.0f;
+	const float kMoveLimitY = 25.0f;
 
 	// 範囲を超えない処理
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);

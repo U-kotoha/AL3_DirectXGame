@@ -61,20 +61,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
-
-	// 弾の更新
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
-
 	// 更新
 	player_->Update();
 	skydome_->Update();
@@ -98,6 +84,20 @@ void GameScene::Update() {
 	// 敵の更新
 	for (Enemy* enemy : enemy_) {
 		enemy->Update();
+	}
+
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
+	// 弾の更新
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 
 #ifdef _DEBUG

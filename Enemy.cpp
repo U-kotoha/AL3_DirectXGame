@@ -22,9 +22,7 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	worldTransform_.Initialize();
 
 	// 初期座標の設定
-	worldTransform_.translation_.x = pos.x;
-	worldTransform_.translation_.y = pos.y;
-	worldTransform_.translation_.z = pos.z;
+	worldTransform_.translation_ = pos;
 
 	// 接近フェーズ初期化
 	Approch_();
@@ -76,7 +74,7 @@ void Enemy::Fire() {
 	assert(player_);
 	
 	// 弾の速度
-	const float kBulletSpeed = 0.5f;
+	const float kBulletSpeed = 0.4f;
 
 	//ワールド座標
 	Vector3 playerV = player_->GetWorldPosition();
