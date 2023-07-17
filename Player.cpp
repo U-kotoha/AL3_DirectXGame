@@ -185,8 +185,8 @@ void Player::Attack() {
 
 void Player::OnCollision() {}
 
-void Player::DrawUI() {
-
+void Player::DrawUI() { 
+	sprite2DReticle_->Draw(); 
 }
 
 Vector3 Player::GetWorldPosition() {
