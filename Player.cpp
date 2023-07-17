@@ -8,29 +8,22 @@ Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
 	}
-	delete sprite2DReticle_;
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 position) {
 	// NULLチェック
 	assert(model);
 
 	// 受け渡し
 	model_ = model;
 	textureHandle_ = textureHandle;
+	worldTransform_.translation_ = position;
 
 	// ワールド初期化
 	worldTransform_.Initialize();
 
 	// シングルインスタンスを取得
 	input_ = Input::GetInstance();
-
-	worldTransform3DReticle_.Initialize();
-	reticle = Model::CreateFromOBJ("cube", true);
-
-	uint32_t textureReticle = TextureManager::Load("target.png");
-	sprite2DReticle_ = Sprite::Create({640, 360}, {1, 1, 1}, {0.5f, 0.5f});
-
 }
 
 void Player::Update() {
@@ -47,7 +40,7 @@ void Player::Update() {
 	// 移動ベクトル
 	Vector3 move = {0, 0, 0};
 	// 移動の速さ
-	const float kCharacterSpeed = 0.2f;
+	const float kCharacterSpeed = 0.3f;
 
 	// 上下左右の移動
 	if (input_->PushKey(DIK_LEFT)) {
@@ -79,8 +72,8 @@ void Player::Update() {
 	}
 
 	// 移動限界座標
-	const float kMoveLimitX = 30.0f;
-	const float kMoveLimitY = 15.0f;
+	const float kMoveLimitX = 40.0f;
+	const float kMoveLimitY = 25.0f;
 
 	// 範囲を超えない処理
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
@@ -144,7 +137,9 @@ void Player::Attack() {
 	}
 }
 
-Vector3 Player::GetWorldPosition() { 
+void Player::OnCollision() {}
+
+Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;
 
 	worldPos.x = worldTransform_.translation_.x;
@@ -152,4 +147,9 @@ Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransform_.parent_ = parent;
 }

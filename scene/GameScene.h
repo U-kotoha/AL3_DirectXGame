@@ -8,7 +8,9 @@
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
+#include "RailCamera.h"
 #include "SafeDelete.h"
+#include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -46,6 +48,11 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollisions();
+
+	/// <summary>
 	/// 敵発生データの読み込み
 	/// </summary>
 	void LoadEnemyPopDate();
@@ -53,7 +60,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
-	void UpdateEnemyPopDate();
+	void UpdateEnemyPopCommands();
 
 	/// <summary>
 	/// 敵弾を追加する
@@ -61,7 +68,13 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	/// <summary>
+	/// 敵発生
+	/// </summary>
 	void AddEnemy(Vector3 pos);
+
+	// 弾リスト取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -84,14 +97,22 @@ private: // メンバ変数
 	// 敵
 	std::list<Enemy*> enemy_;
 	std::list<EnemyBullet*> bullets_;
-
 	std::stringstream enemyPopCommands;
+
+	// 天球
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Vector3 pos_ = {30.0f, 2.0f, 40.0f};
 
 	// デバッグカメラ
 	bool isDebugCamaraActive_ = false;
 	DebugCamera* debugCamara_ = nullptr;
+
+	// レールカメラ
+	RailCamera* railCamera_ = nullptr;
+
+	bool isWait_ = false;
+	int32_t WaitTimer_;
 };

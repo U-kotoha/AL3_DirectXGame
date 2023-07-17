@@ -27,8 +27,14 @@ public:
 	/// <param name="view">ビュープロダクション</param>
 	void Draw(ViewProjection& view);
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
 	// メンバ関数
 	bool IsDead() const { return isDead_; }
+
+	// ワールド座標
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールド変換
@@ -43,7 +49,7 @@ private:
 	// 寿命<frm>
 	static const int32_t kLifeTime = 60 * 5;
 	// デスタイマー
-	int32_t deathTimer_ = 60;
+	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ
 	bool isDead_ = false;
 };

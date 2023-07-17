@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, Vector3 position);
 
 	/// <summary>
 	/// 更新
@@ -37,8 +37,20 @@ public:
 	/// </summary>
 	void Attack();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent"> 親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
+
 	// ワールド座標
 	Vector3 GetWorldPosition();
+
+	// 弾リスト取得
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// ワールド
@@ -51,8 +63,4 @@ private:
 	Input* input_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
-
-
-	WorldTransform worldTransform3DReticle_;
-	Sprite* sprite2DReticle_ = nullptr;
 };

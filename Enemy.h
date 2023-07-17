@@ -1,10 +1,9 @@
 ﻿#pragma once
 
+#include "EnemyBullet.h"
 #include "Model.h"
-#include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "EnemyBullet.h"
 #include <list>
 
 /// <summary>
@@ -40,8 +39,11 @@ public:
 	/// </summary>
 	void Fire();
 
+	// 衝突時コールバック関数
+	void OnCollision();
+
 	// 弾の発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 120;
 	// 接近フェーズ初期化
 	void Approch_();
 
@@ -51,10 +53,9 @@ public:
 		Leave,   // 離脱する
 	};
 
-	//ワールド座標
+	// ワールド座標
 	Vector3 GetWorldPosition();
 
-	//const float GetRadius() { return radius_; }
 	bool GetIsDead() { return isDead_; }
 
 	void SetPlayer(Player* player) { player_ = player; }
@@ -70,20 +71,15 @@ private:
 	// フェーズ
 	Phase phase_ = Enemy::Phase::Approch;
 
-	// 敵の弾
-	/*std::list<EnemyBullet*> bullets_;*/
-	
 	// 発射タイマー
-	int32_t fireTimer = 0;
-
-	//プレイヤー
-	Player* player_ = nullptr;
-
-	//ゲームシーン
-	GameScene* gameScene_ = nullptr;
-
+	int32_t fireTimer = 60;
 	// デスタイマー
-	int32_t deathTimer_ = 300;
+	int32_t deathTimer_ = 120;
 	// デスフラグ
 	bool isDead_ = false;
+
+	// プレイヤー
+	Player* player_ = nullptr;
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
