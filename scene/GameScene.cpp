@@ -42,6 +42,9 @@ void GameScene::Initialize() {
 	railCamera_ = new RailCamera();
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.001f, 0.0f});
 
+	//レティクル
+	TextureManager::Load("target.png");
+
 	// プレイヤー
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.0f});
@@ -165,6 +168,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

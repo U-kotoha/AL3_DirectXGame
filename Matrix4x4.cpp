@@ -214,3 +214,19 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 	                 determinantRecp;
 	return result;
 }
+
+Vector3 Multiply(const Vector3& v, float s) {
+	Vector3 result;
+	result.x = s * v.x;
+	result.y = s * v.y;
+	result.z = s * v.z;
+	return result;
+}
+
+Vector3 Normalize(const Vector3& v) {
+	Vector3 result;
+	result.x = v.x / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	result.y = v.y / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	result.z = v.z / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	return result;
+}

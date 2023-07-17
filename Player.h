@@ -5,6 +5,7 @@
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Sprite.h"
 #include <list>
 
 /// <summary>
@@ -46,6 +47,11 @@ public:
 	/// <param name="parent"> 親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
@@ -63,4 +69,11 @@ private:
 	Input* input_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
+
+	//3Dレティクル
+	WorldTransform worldTransform3DReticle_;
+	//2Dレティクル
+	Sprite* sprite2DReticle_ = nullptr;
+
+	Model* reticle = nullptr;
 };
