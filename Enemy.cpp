@@ -1,14 +1,10 @@
 ﻿#include "Enemy.h"
+#include "GameScene.h"
 #include "MathUtility.h"
-#include "assert.h"
 #include "Player.h"
+#include "assert.h"
 
-Enemy::~Enemy() {
-	// 弾の解放
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
-}
+Enemy::~Enemy() {}
 
 void Enemy::Initialize(Model* model, const Vector3& pos) {
 	// NULLチェック
@@ -24,9 +20,7 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 	worldTransform_.Initialize();
 
 	// 初期座標の設定
-	worldTransform_.translation_.x = pos.x;
-	worldTransform_.translation_.y = pos.y;
-	worldTransform_.translation_.z = pos.z;
+	worldTransform_.translation_ = pos;
 
 	// 接近フェーズ初期化
 	Approch_();
@@ -34,19 +28,10 @@ void Enemy::Initialize(Model* model, const Vector3& pos) {
 
 void Enemy::Update() {
 
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
-
 	switch (phase_) {
 	case Enemy::Phase::Approch:
 		// 移動(ベクトル加算)
-		worldTransform_.translation_.z -= 0.05f;
+		worldTransform_.translation_.z -= 0.10f;
 
 		// 発射タイマーカウントダウン
 		fireTimer--;
@@ -59,19 +44,16 @@ void Enemy::Update() {
 		}
 
 		// 一定の位置になったら行動フェーズが変わる
-		if (worldTransform_.translation_.z < -20.0f) {
+		if (worldTransform_.translation_.z < 0.0f) {
 			phase_ = Enemy::Phase::Leave;
 		}
-
 		break;
 
 	case Enemy::Phase::Leave:
+		worldTransform_.translation_.x = -100.f;
+		worldTransform_.translation_.y = -100.f;
+		worldTransform_.translation_.z = -100.f;
 		break;
-	}
-
-	// 弾の更新
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
 	}
 
 	// 行列更新
@@ -84,30 +66,25 @@ void Enemy::Update() {
 void Enemy::Draw(ViewProjection& viewProjection) {
 	// 3Dモデルの描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-
-	// 弾の描画
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
 }
 
 void Enemy::Fire() {
 	assert(player_);
-	
+
 	// 弾の速度
-	const float kBulletSpeed = 0.5f;
+	const float kBulletSpeed = 0.4f;
 
-	//ワールド座標
+	// ワールド座標
 	Vector3 playerV = player_->GetWorldPosition();
-	Vector3 enemyV =  Enemy::GetWorldPosition();
+	Vector3 enemyV = Enemy::GetWorldPosition();
 
-	//ベクトル
+	// ベクトル
 	Vector3 playerV_;
 	playerV_.x = enemyV.x - playerV.x;
 	playerV_.y = enemyV.y - playerV.y;
 	playerV_.z = enemyV.z - playerV.z;
 
-	//正規化
+	// 正規化
 	float length =
 	    sqrt(playerV_.x * playerV_.x + playerV_.y + playerV_.y + playerV_.z * playerV_.z);
 
@@ -115,7 +92,7 @@ void Enemy::Fire() {
 	normal.x = playerV_.x / length;
 	normal.y = playerV_.y / length;
 	normal.z = playerV_.z / length;
-	
+
 	normal.x *= kBulletSpeed;
 	normal.y *= kBulletSpeed;
 	normal.z *= kBulletSpeed;
@@ -124,8 +101,7 @@ void Enemy::Fire() {
 	EnemyBullet* newBullet = new EnemyBullet;
 	newBullet->Initialize(model_, worldTransform_.translation_, normal);
 
-	// 弾の登録
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::OnCollision() {}

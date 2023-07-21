@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Model.h"
 #include "PlayerBullet.h"
+#include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <list>
@@ -25,7 +26,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(ViewProjection& viewProjection);
 
 	/// <summary>
 	/// 描画
@@ -46,6 +47,11 @@ public:
 	/// <param name="parent"> 親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
 	// ワールド座標
 	Vector3 GetWorldPosition();
 
@@ -64,4 +70,10 @@ private:
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
+	// 3Dレティクル
+	WorldTransform worldTransform3DReticle_;
+	// 2Dレティクル
+	Sprite* sprite2DReticle_ = nullptr;
+
+	Model* reticle = nullptr;
 };
