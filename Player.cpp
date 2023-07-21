@@ -145,6 +145,7 @@ void Player::Update(ViewProjection& viewProjection) {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
+	//reticle->Draw(worldTransform3DReticle_, viewProjection);
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
 	// 弾の描画
