@@ -30,11 +30,12 @@ void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 position) 
 	reticle = Model::CreateFromOBJ("cube", true);
 
 	uint32_t textureReticle = TextureManager::Load("target.png");
-	sprite2DReticle_ = Sprite::Create(textureReticle, {640, 360}, {1, 1, 1}, {0.5f, 0.5f});
+	sprite2DReticle_ = Sprite::Create(textureReticle, {worldTransform_.translation_.x, worldTransform_.translation_.y}, {1, 1, 1, 1}, {0.5f, 0.5f});
 }
 
-void Player::Update() {
+void Player::Update(ViewProjection& viewProjection) {
 
+	//3Dレティクル
 	const float kDistancePlayerTo3DReaticle = 50.0f;
 	Vector3 offset{0.0f, 0.0f, 1.0f};
 	offset = TransformNormal(offset, worldTransform_.matWorld_);
@@ -42,14 +43,25 @@ void Player::Update() {
 
 	worldTransform3DReticle_.translation_.x = worldTransform_.translation_.x;
 	worldTransform3DReticle_.translation_.y = worldTransform_.translation_.y;
-	worldTransform3DReticle_.translation_.z =
-	    worldTransform_.translation_.z + kDistancePlayerTo3DReaticle;
+	worldTransform3DReticle_.translation_.z = worldTransform_.translation_.z + kDistancePlayerTo3DReaticle;
 	
 	// 行列更新
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
 	    worldTransform3DReticle_.scale_, worldTransform3DReticle_.rotation_, worldTransform3DReticle_.translation_);
 	// 行列転送
 	worldTransform3DReticle_.TransferMatrix();
+
+	//2Dレティクル
+	Vector3 positionReticle = {
+	    worldTransform3DReticle_.translation_.x, 
+		worldTransform3DReticle_.translation_.y,
+	    worldTransform3DReticle_.translation_.z
+	};
+	Matrix4x4 matViewport = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+	Matrix4x4 matViewProjectionViewport =
+	    viewProjection.matView * viewProjection.matProjection * matViewport;
+	positionReticle = Transform(positionReticle, matViewProjectionViewport);
+	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](PlayerBullet* bullet) {
@@ -133,7 +145,6 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
-	reticle->Draw(worldTransform3DReticle_, viewProjection);
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
 	// 弾の描画
@@ -146,31 +157,15 @@ void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		// 弾の速度
-		const float kBulletSpeed = 1.0f;
+		const float kBulletSpeed = 2.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 
 		// 速度ベクトルを自機の向きに合わせて回転させる
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
-		velocity.z += worldTransform3DReticle_.matWorld_.m[0][0] - worldTransform_.matWorld_.m[0][0];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[0][1] - worldTransform_.matWorld_.m[0][1];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[0][2] - worldTransform_.matWorld_.m[0][2];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[0][3] - worldTransform_.matWorld_.m[0][3];
-
-		velocity.z += worldTransform3DReticle_.matWorld_.m[1][0] - worldTransform_.matWorld_.m[1][0];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[1][1] - worldTransform_.matWorld_.m[1][1];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[1][2] - worldTransform_.matWorld_.m[1][2];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[1][3] - worldTransform_.matWorld_.m[1][3];
-
-		velocity.z += worldTransform3DReticle_.matWorld_.m[2][0] - worldTransform_.matWorld_.m[2][0];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[2][1] - worldTransform_.matWorld_.m[2][1];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[2][2] - worldTransform_.matWorld_.m[2][2];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[2][3] - worldTransform_.matWorld_.m[2][3];
-
-		velocity.z += worldTransform3DReticle_.matWorld_.m[3][0] - worldTransform_.matWorld_.m[3][0];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[3][1] - worldTransform_.matWorld_.m[3][1];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[3][2] - worldTransform_.matWorld_.m[3][2];
-		velocity.z += worldTransform3DReticle_.matWorld_.m[3][3] - worldTransform_.matWorld_.m[3][3];
+		velocity.x = worldTransform3DReticle_.translation_.x - GetWorldPosition().x;
+		velocity.y = worldTransform3DReticle_.translation_.y - GetWorldPosition().y;
+		velocity.z = worldTransform3DReticle_.translation_.z - GetWorldPosition().z;
 
 		velocity = Multiply(Normalize(velocity), kBulletSpeed);
 
@@ -186,7 +181,7 @@ void Player::Attack() {
 void Player::OnCollision() {}
 
 void Player::DrawUI() { 
-	sprite2DReticle_->Draw(); 
+	sprite2DReticle_->Draw();
 }
 
 Vector3 Player::GetWorldPosition() {

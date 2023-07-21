@@ -65,7 +65,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	// 更新
-	player_->Update();
+	player_->Update(viewProjection_);
 	skydome_->Update();
 	railCamera_->Update();
 
