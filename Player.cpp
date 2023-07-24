@@ -64,30 +64,29 @@ void Player::Update(ViewProjection& viewProjection) {
 	Matrix4x4 matViewProjectionViewport =
 	    viewProjection.matView * viewProjection.matProjection * matViewport;
 	positionReticle = Transform(positionReticle, matViewProjectionViewport);
-	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
+	/*sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));*/
 
 	//マウスカーソル
 	POINT mousePosition;
 	GetCursorPos(&mousePosition);
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	ScreenToClient(hwnd, &mousePosition);
-	
-	positionReticle.x = mousePosition.x;
-	positionReticle.y = mousePosition.y;
+
+	sprite2DReticle_->SetPosition(Vector2(mousePosition.x,mousePosition.y));
 
 	Matrix4x4 matVPV = matViewProjectionViewport;
 	Matrix4x4 matTnverseVPV = Inverse(matVPV);
 
-	Vector3 posNear = Vector3(ScreenToClient(hwnd, &mousePosition), ScreenToClient(hwnd, &mousePosition), 0);
-	Vector3 posFar = Vector3(ScreenToClient(hwnd, &mousePosition), ScreenToClient(hwnd, &mousePosition), 1);
+	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y), 0);
+	Vector3 posFar = Vector3(float(mousePosition.x), float(mousePosition.y), 1);
 
 	posNear = Transform(posNear, matTnverseVPV);
 	posFar = Transform(posFar, matTnverseVPV);
 
-	Vector3 mouseDirection = posNear - posFar;
+	Vector3 mouseDirection = Subtract(posFar, posNear);
 	mouseDirection = Normalize(mouseDirection);
 	const float kDistanceTestObject = 1.0f;
-	worldTransform3DReticle_.translation_ = posNear mouseDirection kDistanceTestObject. ;
+	worldTransform3DReticle_.translation_ = Add(Multiply(mouseDirection, kDistanceTestObject), posNear);
 
 	// 行列更新
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
