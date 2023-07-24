@@ -66,6 +66,45 @@ void Player::Update(ViewProjection& viewProjection) {
 	positionReticle = Transform(positionReticle, matViewProjectionViewport);
 	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
+	//マウスカーソル
+	POINT mousePosition;
+	GetCursorPos(&mousePosition);
+	HWND hwnd = WinApp::GetInstance()->GetHwnd();
+	ScreenToClient(hwnd, &mousePosition);
+	
+	positionReticle.x = mousePosition.x;
+	positionReticle.y = mousePosition.y;
+
+	Matrix4x4 matVPV = matViewProjectionViewport;
+	Matrix4x4 matTnverseVPV = Inverse(matVPV);
+
+	Vector3 posNear = Vector3(ScreenToClient(hwnd, &mousePosition), ScreenToClient(hwnd, &mousePosition), 0);
+	Vector3 posFar = Vector3(ScreenToClient(hwnd, &mousePosition), ScreenToClient(hwnd, &mousePosition), 1);
+
+	posNear = Transform(posNear, matTnverseVPV);
+	posFar = Transform(posFar, matTnverseVPV);
+
+	Vector3 mouseDirection = posNear - posFar;
+	mouseDirection = Normalize(mouseDirection);
+	const float kDistanceTestObject = 1.0f;
+	worldTransform3DReticle_.translation_ = posNear mouseDirection kDistanceTestObject. ;
+
+	// 行列更新
+	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
+	    worldTransform3DReticle_.scale_, worldTransform3DReticle_.rotation_,
+	    worldTransform3DReticle_.translation_);
+	// 行列転送
+	worldTransform3DReticle_.TransferMatrix();
+
+	//デバッグ文字
+	ImGui::Begin("Player");
+	ImGui::Text("2DReticle:(%f, %f)", positionReticle.x, positionReticle.y);
+	ImGui::Text("Near:(%+.2f, %+.2f, %+.2f)", posNear.x, posNear.y, posNear.z);
+	ImGui::Text("Far:(%+.2f, %+.2f, %+.2f)", posFar.x, posFar.y, posFar.z);
+	ImGui::Text("3DReticle:(%+.2f, %+.2f, %+.2f)", 
+		worldTransform3DReticle_.translation_.x, worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
+	ImGui::End();
+
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
