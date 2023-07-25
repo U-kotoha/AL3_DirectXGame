@@ -60,6 +60,28 @@ Matrix4x4 MakeTranslationMatrix(Vector3 trans) {
 	return result;
 }
 
+// アフィン変換行列
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vector3& translate) {
+
+	// スケーリング行列
+	Matrix4x4 matScale = MakeScaleMatrix(scale);
+
+	// 回転行列
+	Matrix4x4 matRotX = MakeRotationXMatrix(rot.x);
+	Matrix4x4 matRotY = MakeRotationYMatrix(rot.y);
+	Matrix4x4 matRotZ = MakeRotationZMatrix(rot.z);
+	// 合成(Z * X * Y)
+	Matrix4x4 matRot = matRotZ * matRotX * matRotY;
+
+	// 平行移動行列
+	Matrix4x4 matTrans = MakeTranslationMatrix(translate);
+
+	// 合成
+	Matrix4x4 result = matScale * matRot * matTrans;
+
+	return result;
+}
+
 // 代入演算子
 Matrix4x4& operator*=(Matrix4x4& m1, const Matrix4x4& m2) {
 
@@ -85,24 +107,30 @@ Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return result *= m2;
 }
 
-// アフィン変換
-Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vector3& translate) {
+// ビューポート変換行列
+Matrix4x4 MakeViewportMatrix(
+    float left, float top, float width, float height, float minDepth, float maxDepth) {
+	Matrix4x4 result;
 
-	// スケーリング行列
-	Matrix4x4 matScale = MakeScaleMatrix(scale);
+	result.m[0][0] = width / 2.0f;
+	result.m[0][1] = 0.0f;
+	result.m[0][2] = 0.0f;
+	result.m[0][3] = 0.0f;
 
-	// 回転行列
-	Matrix4x4 matRotX = MakeRotationXMatrix(rot.x);
-	Matrix4x4 matRotY = MakeRotationYMatrix(rot.y);
-	Matrix4x4 matRotZ = MakeRotationZMatrix(rot.z);
-	// 合成(Z * X * Y)
-	Matrix4x4 matRot = matRotZ * matRotX * matRotY;
+	result.m[1][0] = 0.0f;
+	result.m[1][1] = -height / 2.0f;
+	result.m[1][2] = 0.0f;
+	result.m[1][3] = 0.0f;
 
-	// 平行移動行列
-	Matrix4x4 matTrans = MakeTranslationMatrix(translate);
+	result.m[2][0] = 0.0f;
+	result.m[2][1] = 0.0f;
+	result.m[2][2] = maxDepth - minDepth;
+	result.m[2][3] = 0.0f;
 
-	// 合成
-	Matrix4x4 result = matScale * matRot * matTrans;
+	result.m[3][0] = left + width / 2.0f;
+	result.m[3][1] = top + height / 2.0f;
+	result.m[3][2] = minDepth;
+	result.m[3][3] = 1.0f;
 
 	return result;
 }
@@ -215,47 +243,21 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 	return result;
 }
 
-Vector3 Multiply(const Vector3& v, float s) {
+// スカラー倍
+Vector3 Multiply(float scalar, const Vector3& v) {
 	Vector3 result;
-	result.x = s * v.x;
-	result.y = s * v.y;
-	result.z = s * v.z;
+	result.x = scalar * v.x;
+	result.y = scalar * v.y;
+	result.z = scalar * v.z;
 	return result;
 }
 
+// 正規化
 Vector3 Normalize(const Vector3& v) {
 	Vector3 result;
 	result.x = v.x / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 	result.y = v.y / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 	result.z = v.z / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
-	return result;
-}
-
-// ビューポート変換行列
-Matrix4x4 MakeViewportMatrix(
-    float left, float top, float width, float height, float minDepth, float maxDepth) {
-	Matrix4x4 result;
-
-	result.m[0][0] = width / 2.0f;
-	result.m[0][1] = 0.0f;
-	result.m[0][2] = 0.0f;
-	result.m[0][3] = 0.0f;
-
-	result.m[1][0] = 0.0f;
-	result.m[1][1] = -height / 2.0f;
-	result.m[1][2] = 0.0f;
-	result.m[1][3] = 0.0f;
-
-	result.m[2][0] = 0.0f;
-	result.m[2][1] = 0.0f;
-	result.m[2][2] = maxDepth - minDepth;
-	result.m[2][3] = 0.0f;
-
-	result.m[3][0] = left + width / 2.0f;
-	result.m[3][1] = top + height / 2.0f;
-	result.m[3][2] = minDepth;
-	result.m[3][3] = 1.0f;
-
 	return result;
 }
 

@@ -41,12 +41,11 @@ void Player::Update(ViewProjection& viewProjection) {
 	const float kDistancePlayerTo3DReaticle = 50.0f;
 	Vector3 offset{0.0f, 0.0f, 1.0f};
 	offset = TransformNormal(offset, worldTransform_.matWorld_);
-	offset = Multiply(Normalize(offset), kDistancePlayerTo3DReaticle);
+	offset = Multiply(kDistancePlayerTo3DReaticle, Normalize(offset));
 
 	worldTransform3DReticle_.translation_.x = worldTransform_.translation_.x;
 	worldTransform3DReticle_.translation_.y = worldTransform_.translation_.y;
-	worldTransform3DReticle_.translation_.z =
-	    worldTransform_.translation_.z + kDistancePlayerTo3DReaticle;
+	worldTransform3DReticle_.translation_.z = worldTransform_.translation_.z + kDistancePlayerTo3DReaticle;
 
 	// 行列更新
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
@@ -64,7 +63,6 @@ void Player::Update(ViewProjection& viewProjection) {
 	Matrix4x4 matViewProjectionViewport =
 	    viewProjection.matView * viewProjection.matProjection * matViewport;
 	positionReticle = Transform(positionReticle, matViewProjectionViewport);
-	/*sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));*/
 
 	//マウスカーソル
 	POINT mousePosition;
@@ -72,21 +70,24 @@ void Player::Update(ViewProjection& viewProjection) {
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	ScreenToClient(hwnd, &mousePosition);
 
-	sprite2DReticle_->SetPosition(Vector2(mousePosition.x,mousePosition.y));
+	positionReticle.x = float(mousePosition.x);
+	positionReticle.y = float(mousePosition.y);
+	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
 	Matrix4x4 matVPV = matViewProjectionViewport;
-	Matrix4x4 matTnverseVPV = Inverse(matVPV);
+	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
 	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y), 0);
 	Vector3 posFar = Vector3(float(mousePosition.x), float(mousePosition.y), 1);
 
-	posNear = Transform(posNear, matTnverseVPV);
-	posFar = Transform(posFar, matTnverseVPV);
+	posNear = Transform(posNear, matInverseVPV);
+	posFar = Transform(posFar, matInverseVPV);
 
 	Vector3 mouseDirection = Subtract(posFar, posNear);
 	mouseDirection = Normalize(mouseDirection);
-	const float kDistanceTestObject = 1.0f;
-	worldTransform3DReticle_.translation_ = Add(Multiply(mouseDirection, kDistanceTestObject), posNear);
+	const float kDistanceTestObject = 10.0f;
+	worldTransform3DReticle_.translation_ = 
+		Add(Multiply(kDistanceTestObject, mouseDirection), posNear);
 
 	// 行列更新
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
@@ -100,8 +101,8 @@ void Player::Update(ViewProjection& viewProjection) {
 	ImGui::Text("2DReticle:(%f, %f)", positionReticle.x, positionReticle.y);
 	ImGui::Text("Near:(%+.2f, %+.2f, %+.2f)", posNear.x, posNear.y, posNear.z);
 	ImGui::Text("Far:(%+.2f, %+.2f, %+.2f)", posFar.x, posFar.y, posFar.z);
-	ImGui::Text("3DReticle:(%+.2f, %+.2f, %+.2f)", 
-		worldTransform3DReticle_.translation_.x, worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
+	ImGui::Text("3DReticle:(%+.2f, %+.2f, %+.2f)", worldTransform3DReticle_.translation_.x,
+		worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
 	ImGui::End();
 
 	// デスフラグの立った弾を削除
@@ -209,7 +210,7 @@ void Player::Attack() {
 		velocity.y = worldTransform3DReticle_.translation_.y - GetWorldPosition().y;
 		velocity.z = worldTransform3DReticle_.translation_.z - GetWorldPosition().z;
 
-		velocity = Multiply(Normalize(velocity), kBulletSpeed);
+		velocity = Multiply(kBulletSpeed, Normalize(velocity));
 
 		// 弾の生成と初期化
 		PlayerBullet* newBullet = new PlayerBullet;
