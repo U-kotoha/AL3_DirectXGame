@@ -85,7 +85,7 @@ void Player::Update(ViewProjection& viewProjection) {
 
 	Vector3 mouseDirection = Subtract(posFar, posNear);
 	mouseDirection = Normalize(mouseDirection);
-	const float kDistanceTestObject = 10.0f;
+	const float kDistanceTestObject = 100.0f;
 	worldTransform3DReticle_.translation_ = 
 		Add(Multiply(kDistanceTestObject, mouseDirection), posNear);
 
@@ -129,6 +129,22 @@ void Player::Update(ViewProjection& viewProjection) {
 		move.y -= kCharacterSpeed;
 	} else if (input_->PushKey(DIK_UP)) {
 		move.y += kCharacterSpeed;
+	}
+
+	// ゲームパッド
+	XINPUT_STATE joyState;
+
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
+		move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
+	}
+
+	Vector2 spritePosition = sprite2DReticle_->GetPosition();
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		spritePosition.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
+		spritePosition.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+
+		sprite2DReticle_->SetPosition(spritePosition);
 	}
 
 	// 旋回(回転)の速さ
@@ -199,6 +215,33 @@ void Player::Draw(ViewProjection& viewProjection) {
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
+		// 弾の速度
+		const float kBulletSpeed = 2.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		// 速度ベクトルを自機の向きに合わせて回転させる
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
+		velocity.x = worldTransform3DReticle_.translation_.x - GetWorldPosition().x;
+		velocity.y = worldTransform3DReticle_.translation_.y - GetWorldPosition().y;
+		velocity.z = worldTransform3DReticle_.translation_.z - GetWorldPosition().z;
+
+		velocity = Multiply(kBulletSpeed, Normalize(velocity));
+
+		// 弾の生成と初期化
+		PlayerBullet* newBullet = new PlayerBullet;
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
+		// 弾の登録
+		bullets_.push_back(newBullet);
+	}
+
+	// ゲームパッド
+	XINPUT_STATE joyState;
+	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
+		return;
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		// 弾の速度
 		const float kBulletSpeed = 2.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
